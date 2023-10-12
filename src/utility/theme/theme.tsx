@@ -18,6 +18,10 @@ const theme = createTheme({
       main: '#ba0f0f',
     }
   },
+  typography: {
+    fontFamily: 'sans-serif', 
+    fontSize: 13, 
+  }
 });
 
 export default theme;
