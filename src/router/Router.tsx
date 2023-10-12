@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from '../components/header/Header';
 import Login from './routes/auth/Login';
+import Register from './routes/auth/Register';
 
 
 const Router = () => {
@@ -23,7 +24,7 @@ const Router = () => {
 								<Header />
 								<Routes>
 										<Route path="/login" element={<Login />} />
-										{/* <Route path="/changePassword" element={<ChangePassword />} /> */}
+										<Route path="/register" element={<Register />} />
 								</Routes>
 						</BrowserRouter>
 				</>
