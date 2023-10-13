@@ -1,14 +1,11 @@
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CssBaseline from '@mui/material/CssBaseline';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { Button, CardMedia, TextField } from '@mui/material';
+import { Button, Card, CardActions, CardContent, CardMedia, Container, CssBaseline, Grid, TextField, Typography } from '@mui/material';
 import data from './productdata';
+import { useNavigate } from 'react-router-dom';
 
 export default function ProductList() {
+
+	const navigate = useNavigate();
+
 	return (
 		<>
 			<CssBaseline />
@@ -39,8 +36,8 @@ export default function ProductList() {
 							md={3}
 							xl={2}
 						>
-							<Card sx={{ minWidth: 275 }}>
-								<CardContent>
+							<Card sx={{ minWidth: 275, cursor: 'pointer' }}>
+								<CardContent onClick={()=> navigate("/product/1")}>
 									<CardMedia
 										component="img"
 										image={val.thumbnail}
