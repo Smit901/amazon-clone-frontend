@@ -5,104 +5,13 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { Button, CardMedia } from '@mui/material';
+import { Button, CardMedia, TextField } from '@mui/material';
 import data from './productdata';
-
-const tiers = [
-	{
-		title: 'Free',
-		price: '0',
-		description: [
-			'10 users included',
-			'2 GB of storage',
-			'Help center access',
-			'Email support',
-		],
-		buttonText: 'Sign up for free',
-		buttonVariant: 'outlined',
-	},
-	{
-		title: 'Pro',
-		subheader: 'Most popular',
-		price: '15',
-		description: [
-			'20 users included',
-			'10 GB of storage',
-			'Help center access',
-			'Priority email support',
-		],
-		buttonText: 'Get started',
-		buttonVariant: 'contained',
-	},
-	{
-		title: 'Enterprise',
-		price: '30',
-		description: [
-			'50 users included',
-			'30 GB of storage',
-			'Help center access',
-			'Phone & email support',
-		],
-		buttonText: 'Contact us',
-		buttonVariant: 'outlined',
-	},
-	{
-		title: 'Enterprise',
-		price: '30',
-		description: [
-			'50 users included',
-			'30 GB of storage',
-			'Help center access',
-			'Phone & email support',
-		],
-		buttonText: 'Contact us',
-		buttonVariant: 'outlined',
-	},
-	{
-		title: 'Enterprise',
-		price: '30',
-		description: [
-			'50 users included',
-			'30 GB of storage',
-			'Help center access',
-			'Phone & email support',
-		],
-		buttonText: 'Contact us',
-		buttonVariant: 'outlined',
-	},
-	{
-		title: 'Enterprise',
-		price: '30',
-		description: [
-			'50 users included',
-			'30 GB of storage',
-			'Help center access',
-			'Phone & email support',
-		],
-		buttonText: 'Contact us',
-		buttonVariant: 'outlined',
-	},
-	{
-		title: 'Enterprise',
-		price: '30',
-		description: [
-			'50 users included',
-			'30 GB of storage',
-			'Help center access',
-			'Phone & email support',
-		],
-		buttonText: 'Contact us',
-		buttonVariant: 'outlined',
-	},
-];
-
 
 export default function ProductList() {
 	return (
 		<>
 			<CssBaseline />
-
-			{/* Hero unit */}
 			<Container disableGutters maxWidth="sm" component="main" sx={{ pt: 10, pb: 6 }}>
 				<Typography
 					component="h1"
@@ -113,6 +22,9 @@ export default function ProductList() {
 				>
 					Products
 				</Typography>
+			</Container>
+			<Container maxWidth="xl" component="main">
+				<TextField id="filled-basic" label="Search product" variant="filled" sx={{ mx: 6, my: 2 }} />
 				
 			</Container>
 			<Container maxWidth="xl" component="main">

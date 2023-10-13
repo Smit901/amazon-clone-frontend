@@ -1,12 +1,13 @@
 import * as React from 'react';
-import { Container, AppBar, Toolbar, Typography, Box, IconButton, Menu, MenuItem, Tooltip, Button, Avatar, Link } from '@mui/material';
+import { Container, AppBar, Toolbar, Typography, Box, IconButton, Menu, MenuItem, Tooltip, Button, Avatar } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 const pages = ['home', 'product', 'login', 'register'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function Header() {
+  const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -29,8 +30,8 @@ function Header() {
     <AppBar position="fixed" sx={{ bgcolor: 'primary.light' }}>
       <Container maxWidth={false}>
         <Toolbar disableGutters>
-          <Box sx={{ display: { md: 'flex', xs: 'none' }, mr: 1, mt: 1 }}>
-            <img src="logo.svg" height={40} width={100} />
+          <Box sx={{ display: { md: 'flex', xs: 'none' }, mr: 1, mt: 1 }} onClick={()=> navigate('/')}>
+            <img src="/logo.svg" height={40} width={100} />
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -70,7 +71,7 @@ function Header() {
             </Menu>
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, alignItems: 'center', mr: 1, mt: 1 }}>
-            <img src="logo.svg" height={50} width={100} alt='' />
+            <img src="/logo.svg" height={50} width={100} alt='' />
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (

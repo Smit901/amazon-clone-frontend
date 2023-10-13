@@ -4,22 +4,11 @@ import Login from './routes/auth/Login';
 import Register from './routes/auth/Register';
 import ProductList from './routes/product/ProductList';
 import Footer from '../components/footer/Footer';
-
+import Home from './routes/home/Home';
+import Error from './routes/404/Error';
+import Product from './routes/product/Product';
 
 const Router = () => {
-
-	if (false) {
-		return (
-				<div className="App">
-						<BrowserRouter basename={"/admin"}>
-								<Routes>
-										{/* <Route path="/" element={<Login />} /> */}
-										{/* <Route path="/forgotPassword" element={<ForgotPassword />} /> */}
-								</Routes>
-						</BrowserRouter>
-				</div>
-		);
-} else {
 		return (
 				<>
 						<BrowserRouter>
@@ -28,14 +17,14 @@ const Router = () => {
 										<Route path="/login" element={<Login />} />
 										<Route path="/register" element={<Register />} />
 										<Route path="/product" element={<ProductList />} />
-										<Route path="/home" element={<Register />} />
+										<Route path="/product/:id" element={<Product />} />
+										<Route path="/home" element={<Home />} />
+										<Route path="/*" element={<Error />} />
 								</Routes>
 								<Footer />
 						</BrowserRouter>
 				</>
 		);
-}
-
 }
 
 export default Router

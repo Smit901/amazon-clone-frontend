@@ -17,3 +17,16 @@ a{
 	text-overflow: ellipsis;
 	max-width: 200px; /* Adjust the maximum width as needed */
 }
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #e6ecfc;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #142659;
+  /* border-radius: 5px; */
+}

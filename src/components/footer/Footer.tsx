@@ -34,6 +34,7 @@ const Footer = () => {
 					borderTop: (theme) => `1px solid ${theme.palette.divider}`,
 					mt: 8,
 					py: [3, 6],
+					bgcolor: 'primary.light'
 				}}
 			>
 				<Box sx={{ px: {xl:15, sm: 10} }}>
