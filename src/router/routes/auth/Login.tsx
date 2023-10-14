@@ -1,13 +1,26 @@
-import { Avatar, Box, Button, CssBaseline, Grid, InputLabel, TextField, Link, Typography, Container } from '@mui/material';
+import React from 'react';
+import { Avatar, Box, Button, CssBaseline, Grid, InputLabel, TextField, Link, Typography, Container, Snackbar, Alert } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { useForm } from "react-hook-form";
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { userLogin } from '../../../api/apiHandler';
+import useUserContext from '../../../utility/hooks/useUserContext';
 
 export default function Login() {
+  const { token, login, logout } = useUserContext();
+  const navigate = useNavigate();
+  const [state, setState] = React.useState<State>({
+    open: false,
+    vertical: 'top',
+    horizontal: 'right',
+    severity: 'error',
+    message: ''
+  })
+  const { vertical, horizontal, open, severity, message } = state;
 
-	const validationSchema = Yup.object().shape({
+  const validationSchema = Yup.object().shape({
     email: Yup.string().email("Email is invalid").required("Email is required"),
     password: Yup.string()
       .required("Password is required")
@@ -17,72 +30,96 @@ export default function Login() {
   const { register, handleSubmit, formState } = useForm(formOptions);
   const { errors } = formState;
 
-  const onSubmit = (data: { email: string, password: string}) => {
-		console.log(data)
+  const handleClose = () => {
+    setState({ ...state, open: false, message: '' });
+  };
+
+  const onSubmit = (data: { email: string, password: string }) => {
+    userLogin(data).then(res => {
+      if (res.data.status) {
+        localStorage.setItem('token', res?.data?.data.token || '');
+        setState({ ...state, open: true, severity: 'success', message: res.data.msg });
+        setTimeout(() => {
+          login(res.data.data.token)
+          navigate("/home");
+        }, 2000);
+      } else {
+        setState({ ...state, open: true, severity: 'error', message: res.data.msg });
+      }
+    }).catch(err => {
+      if (!err.response.data.status) {
+        setState({ ...state, open: true, severity: 'error', message: err.response.data.msg });
+      }
+    })
   };
 
   return (
-      <Container component="main" maxWidth="xs" sx={{marginTop: 20, paddingY: 6, boxShadow: 2}}>
-        <CssBaseline />
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center'
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
-          <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              autoComplete="email"
-              autoFocus
-							{...register("email")}
-            />
-						{errors.email && <InputLabel  sx={{color: 'error.main'}}>{errors.email?.message}</InputLabel>}
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-							{...register("password")}
-            />
-						{errors.password && <InputLabel sx={{color: 'error.main'}}>{errors.password?.message}</InputLabel>}
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign In
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-							&nbsp;&nbsp;&nbsp;
-              <Grid item>
-                <NavLink to="/register">
-                  {"Don't have an account? Sign Up"}
-                </NavLink>
-              </Grid>
+    <Container component="main" maxWidth="xs" sx={{ marginTop: 20, paddingY: 6, boxShadow: 2 }}>
+      <CssBaseline />
+      <Snackbar anchorOrigin={{ vertical, horizontal }} key={vertical + horizontal} open={open} autoHideDuration={4000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity={severity} sx={{ width: '100%' }}>
+          {message}
+        </Alert>
+      </Snackbar>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center'
+        }}
+      >
+        <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Sign in
+        </Typography>
+        <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1 }}>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            label="Email Address"
+            autoComplete="email"
+            autoFocus
+            {...register("email")}
+          />
+          {errors.email && <InputLabel sx={{ color: 'error.main' }}>{errors.email?.message}</InputLabel>}
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+            {...register("password")}
+          />
+          {errors.password && <InputLabel sx={{ color: 'error.main' }}>{errors.password?.message}</InputLabel>}
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Sign In
+          </Button>
+          <Grid container>
+            <Grid item xs>
+              <Link href="#" variant="body2">
+                Forgot password?
+              </Link>
             </Grid>
-          </Box>
+            &nbsp;&nbsp;&nbsp;
+            <Grid item>
+              <NavLink to="/register">
+                {"Don't have an account? Sign Up"}
+              </NavLink>
+            </Grid>
+          </Grid>
         </Box>
-      </Container>
+      </Box>
+    </Container>
   );
 }

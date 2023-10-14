@@ -1,5 +1,11 @@
+import React from 'react';
+import useUserContext from '../../../utility/hooks/useUserContext';
 
 const Home = () => {
+	const { token, login, logout } = useUserContext();
+
+
+	
 	return (
 		<div style={{ marginTop: "100px", height: "100vh" }}>
 			<center>

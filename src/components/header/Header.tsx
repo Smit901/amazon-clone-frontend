@@ -3,12 +3,15 @@ import { Container, AppBar, Toolbar, Typography, Box, IconButton, Menu, MenuItem
 import MenuIcon from '@mui/icons-material/Menu';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { ShoppingCart } from '@mui/icons-material';
+import useUserContext from '../../utility/hooks/useUserContext';
 
-const pages = ['home', 'product', 'login', 'register'];
+
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function Header() {
   const navigate = useNavigate();
+  const { token } = useUserContext()
+  const pages = token ? ['home', 'product'] : ['home', 'product', 'login', 'register']
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -87,36 +90,40 @@ function Header() {
 
             ))}
           </Box>
-          <ShoppingCart sx={{color:'primary.main',mr:2, height: 30, width: 35, cursor: 'pointer'}} onClick={()=> navigate("/cart")}/>
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/avatar.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+          {token && <>
+            <ShoppingCart sx={{ color: 'primary.main', mr: 2, height: 30, width: 35, cursor: 'pointer' }} onClick={() => navigate("/cart")} />
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar alt="Remy Sharp" src="/avatar.jpg" />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: '45px' }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                {settings.map((setting) => (
+                   <NavLink to={`/${setting.toLocaleLowerCase()}`} className='header__link' key={setting}>
+                  <MenuItem onClick={handleCloseUserMenu}>
+                    <Typography textAlign="center">{setting}</Typography>
+                  </MenuItem>
+                  </NavLink>
+                ))}
+              </Menu>
+            </Box></>}
+
         </Toolbar>
       </Container>
     </AppBar>
