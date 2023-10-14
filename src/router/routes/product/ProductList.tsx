@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, Card, CardActions, CardContent, CardMedia, Container, CssBaseline, Grid, TextField, Typography } from '@mui/material';
 import data from './productdata';
 import { useNavigate } from 'react-router-dom';
@@ -7,12 +7,24 @@ import {
 	TablePagination,
 	tablePaginationClasses as classes,
 } from '@mui/base/TablePagination';
+import { getProducts } from '../../../api/apiHandler';
+
+const extra = /[\[\]'\n\s]/g
 
 export default function ProductList() {
 
 	const navigate = useNavigate();
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
+	const [products, setProducts] = React.useState([]);
+
+	useEffect(() => {
+		getProducts({}).then(res => {
+			// const cleanedString = res.data.data.products[0].image.replace(extra, '');
+			// const urlArray = cleanedString.split(',');
+			setProducts(res.data.data.products)
+		})
+	}, [])
 
 	const handleChangePage = (
 		event: React.MouseEvent<HTMLButtonElement> | null,
@@ -47,27 +59,27 @@ export default function ProductList() {
 
 			</Container>
 			<Container maxWidth="xl" component="main">
-				<Grid container spacing={5} alignItems="flex-end" sx={{mb: 5}}>
-					{data.map((val) => (
+				<Grid container spacing={5} alignItems="flex-end" sx={{ mb: 5 }}>
+					{products.length > 0 && products.map((val, index) => (
 						<Grid
 							item
-							key={val.title}
+							key={val.name + index}
 							sx={{ mx: 6, my: 2 }}
 							xs={12}
 							sm={6}
 							md={3}
 							xl={2}
 						>
-							<Card sx={{ minWidth: 275, cursor: 'pointer' }}>
+							<Card sx={{ minWidth: 275, cursor: 'pointer', borderRadius: 2, boxShadow: 3 }}>
 								<CardContent onClick={() => navigate("/product/1")}>
 									<CardMedia
 										component="img"
-										image={val.thumbnail}
+										image={val.image.replace(extra, '').split(',')[0]}
 										sx={{ borderRadius: 2, objectFit: 'cover', height: '250px' }}
-										alt="Paella dish"
+										alt={val.name}
 									/>
 									<Typography variant="h6" component="div" sx={{ mt: 2 }}>
-										{val.title}
+										{val.name}
 									</Typography>
 									<Typography sx={{ mb: 1.5 }} color="text.secondary">
 										Price: {val.price}
@@ -92,7 +104,7 @@ export default function ProductList() {
 						</Grid>
 					))}
 				</Grid>
-				<Root sx={{ width: 500, maxWidth: '100%', m: 'auto'}}>
+				<Root sx={{ width: 500, maxWidth: '100%', m: 'auto' }}>
 					<table aria-label="custom pagination table">
 						<tfoot>
 							<tr>

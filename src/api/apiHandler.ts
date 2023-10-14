@@ -7,3 +7,7 @@ export function userRegister (data){
 export function userLogin (data){
 	return axiosClient.post("api/auth/login", data);
 }
+
+export function getProducts (data){
+	return axiosClient.get("api/products/", data);
+}
