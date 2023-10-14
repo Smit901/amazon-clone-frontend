@@ -1,13 +1,23 @@
-import { Avatar, Box, Button, CssBaseline, Grid, InputLabel, TextField, Link, Typography, Container } from '@mui/material';
+import React from 'react';
+import { Avatar, Box, Button, CssBaseline, Grid, InputLabel, TextField, Link, Typography, Container, Snackbar, Alert } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { useForm } from "react-hook-form";
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { userRegister } from '../../../api/apiHandler';
 
 
 export default function Register() {
+  const navigate = useNavigate();
+  const [state, setState] = React.useState<State>({
+    open: false,
+    vertical: 'top',
+    horizontal: 'right',
+    severity: 'error',
+    message: ''
+  })
+  const { vertical, horizontal, open, severity, message } = state;
 
   const validationSchema = Yup.object().shape({
     firstName: Yup.string().required("First name is required"),
@@ -15,21 +25,42 @@ export default function Register() {
     email: Yup.string().email("Email is invalid").required("Email is required"),
     password: Yup.string()
       .required("Password is required")
-      .min(5, "Password must be at least 5 characters"),
+      .min(6, "Password must be at least 6 characters"),
   });
   const formOptions = { resolver: yupResolver(validationSchema) };
   const { register, handleSubmit, formState } = useForm(formOptions);
   const { errors } = formState;
 
+  const handleClose = () => {
+    setState({ ...state, open: false, message: '' });
+  };
+
   const onSubmit = (data: { firstName: string, lastName: string, email: string, password: string }) => {
-    userRegister(data).then(res=>{
-      console.log(res)
+    userRegister(data).then(res => {
+      if (res.data.status) {
+        setState({ ...state, open: true, severity: 'success', message: res.data.msg });
+        setTimeout(() => {
+          navigate("/login");
+        }, 2000);
+      } else {
+        setState({ ...state, open: true, severity: 'error', message: res.data.msg });
+      }
+    }).catch(err => {
+      console.log(err)
+      if (!err.response.data.status) {
+        setState({ ...state, open: true, severity: 'error', message: err.response.data.msg });
+      }
     })
   };
 
   return (
     <Container component="main" maxWidth="xs" sx={{ marginTop: 20, paddingY: 6, boxShadow: 2 }}>
       <CssBaseline />
+      <Snackbar anchorOrigin={{ vertical, horizontal }} key={vertical + horizontal} open={open} autoHideDuration={5000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity={severity} sx={{ width: '100%' }}>
+          {message}
+        </Alert>
+      </Snackbar>
       <Box
         sx={{
           display: 'flex',
