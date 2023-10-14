@@ -11,3 +11,7 @@ export function userLogin (data){
 export function getProducts (data){
 	return axiosClient.get("api/products/", data);
 }
+
+export function getSingleProduct (data){
+	return axiosClient.get(`api/products/${data.id}`, data)
+}

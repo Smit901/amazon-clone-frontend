@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { Button, Card, CardActions, CardContent, CardMedia, Container, CssBaseline, Grid, TextField, Typography } from '@mui/material';
-import data from './productdata';
 import { useNavigate } from 'react-router-dom';
 import { styled } from '@mui/system';
 import {
@@ -20,9 +19,11 @@ export default function ProductList() {
 
 	useEffect(() => {
 		getProducts({}).then(res => {
-			// const cleanedString = res.data.data.products[0].image.replace(extra, '');
-			// const urlArray = cleanedString.split(',');
-			setProducts(res.data.data.products)
+			if (res.data.status) {
+				// const cleanedString = res.data.data.products[0].image.replace(extra, '');
+				// const urlArray = cleanedString.split(',');
+				setProducts(res.data.data.products)
+			}
 		})
 	}, [])
 
@@ -71,7 +72,7 @@ export default function ProductList() {
 							xl={2}
 						>
 							<Card sx={{ minWidth: 275, cursor: 'pointer', borderRadius: 2, boxShadow: 3 }}>
-								<CardContent onClick={() => navigate("/product/1")}>
+								<CardContent onClick={() => navigate(`/product/${val.id}`)}>
 									<CardMedia
 										component="img"
 										image={val.image.replace(extra, '').split(',')[0]}

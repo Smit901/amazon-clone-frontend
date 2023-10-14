@@ -1,6 +1,8 @@
 import { Box, Button, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 export default function Error() {
+  const navigate = useNavigate()
   return (
     <Box
       sx={{
@@ -14,10 +16,10 @@ export default function Error() {
       <Typography variant="h1">
         404
       </Typography>
-      <Typography variant="h6">
+      <Typography variant="h6" sx={{mb: 3}}>
         The page you’re looking for doesn’t exist.
       </Typography>
-      <Button variant="contained">Back Home</Button>
+      <Button variant="contained" onClick={()=> navigate("/home")}>Back Home</Button>
     </Box>
   );
 }
