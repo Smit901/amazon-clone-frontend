@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Card, CardActions, CardContent, CardMedia, Container, CssBaseline, Grid, Pagination, Stack, TextField, Typography } from '@mui/material';
+import { Button, Card, CardActions, CardContent, CardMedia, Container, CssBaseline, Grid, TextField, Typography } from '@mui/material';
 import data from './productdata';
 import { useNavigate } from 'react-router-dom';
 import { styled } from '@mui/system';

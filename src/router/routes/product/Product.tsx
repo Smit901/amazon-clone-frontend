@@ -24,13 +24,13 @@ const Product = () => {
               <Typography component="div" variant="h3" sx={{ mb: 4 }}>
                 Product Name
               </Typography>
-              <Typography component="div" variant="p">
+              <Typography component="div" variant="body1">
                 It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy.
               </Typography>
               <Typography component="div" variant="h6" sx={{ mt: 4 }}>
                 $1000000.00
               </Typography>
-              <Typography component="div" variant="label" sx={{ textDecoration: "line-through", mb: 4 }}>
+              <Typography component="div" variant="body1" sx={{ textDecoration: "line-through", mb: 4 }}>
                 $1000000.00
               </Typography>
               <Grid container spacing={2}>
