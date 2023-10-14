@@ -43,8 +43,8 @@ export default function ProductList() {
 
 	useEffect(() => {
 
-		let page = searchParams.get('page')
-		let rowsPerPage = searchParams.get('rowsPerPage')
+		let page = +searchParams.get('page')
+		let rowsPerPage = +searchParams.get('rowsPerPage')
 		let search = searchParams.get('search') || ''
 
 		setPage(+page);
@@ -92,7 +92,7 @@ export default function ProductList() {
 				</Typography>
 			</Container>
 			<Container maxWidth="xl" component="main">
-				<TextField id="filled-basic" label="Search product" variant="filled" sx={{ mx: 6, my: 2 }} onChange={(e) => {
+				<TextField id="filled-basic" label="Search product" variant="filled" sx={{ mx: 6, my: 2 }} value={search} onChange={(e) => {
 					searchParams.set("search", e.target.value);
 					searchParams.set("page", 0);
 					setSearchParams(searchParams);
