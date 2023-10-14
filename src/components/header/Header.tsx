@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Container, AppBar, Toolbar, Typography, Box, IconButton, Menu, MenuItem, Tooltip, Button, Avatar } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { ShoppingCart } from '@mui/icons-material';
 
 const pages = ['home', 'product', 'login', 'register'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -30,7 +31,7 @@ function Header() {
     <AppBar position="fixed" sx={{ bgcolor: 'primary.light' }}>
       <Container maxWidth={false}>
         <Toolbar disableGutters>
-          <Box sx={{ display: { md: 'flex', xs: 'none' }, mr: 1, mt: 1 }} onClick={()=> navigate('/')}>
+          <Box sx={{ display: { md: 'flex', xs: 'none' }, mr: 1, mt: 1 }} onClick={() => navigate('/')}>
             <img src="/logo.svg" height={40} width={100} />
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -75,10 +76,10 @@ function Header() {
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
-              <NavLink  to={`/${page}`} className='header__link' key={page}>
+              <NavLink to={`/${page}`} className='header__link' key={page}>
                 <Button
                   onClick={() => { }}
-                  sx={{ my: 1, mx: 1, display: 'block', textDecoration: 'none', color:'black' }}
+                  sx={{ my: 1, mx: 1, display: 'block', textDecoration: 'none', color: 'black' }}
                 >
                   {page.toUpperCase()}
                 </Button>
@@ -86,6 +87,7 @@ function Header() {
 
             ))}
           </Box>
+          <ShoppingCart sx={{color:'primary.main',mr:2, height: 30, width: 35, cursor: 'pointer'}} onClick={()=> navigate("/cart")}/>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
