@@ -9,7 +9,7 @@ export function userLogin (data){
 }
 
 export function getProducts (data){
-	return axiosClient.get("api/products/", data);
+	return axiosClient.get(`api/products?page=${data.page}&productsPerPage=${data.rowsPerPage}`, data);
 }
 
 export function getSingleProduct (data){

@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Card, CardActions, CardContent, CardMedia, Container, CssBaseline, Grid, TextField, Typography } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { styled } from '@mui/system';
 import {
 	TablePagination,
@@ -13,25 +13,58 @@ const extra = /[\[\]'\n\s]/g
 export default function ProductList() {
 
 	const navigate = useNavigate();
-	const [page, setPage] = React.useState(0);
-	const [rowsPerPage, setRowsPerPage] = React.useState(5);
-	const [products, setProducts] = React.useState([]);
+	const [searchParams, setSearchParams] = useSearchParams();
+	const [page, setPage] = useState(0);
+	const [rowsPerPage, setRowsPerPage] = useState(5);
+	const [search, setSearch] = useState("");
+	const [totalProduct, setTotalProduct] = useState();
+	const [products, setProducts] = useState([]);
+
+	// let pageNo = searchParams.get("pageNo");
+	// let searchString = searchParams.get("search");
+	// let pageLimit = searchParams.get("recordLimit");
+
+	const defalutQueryString = {
+		page,
+		rowsPerPage,
+		search
+	};
 
 	useEffect(() => {
-		getProducts({}).then(res => {
+		// Check if any of the default parameters are not present in the URL
+		for (const [key, value] of Object.entries(defalutQueryString)) {
+			if (!searchParams.has(key)) {
+				searchParams.set(key, value);
+			}
+		}
+		// Update the URL with the default query parameters
+		setSearchParams(searchParams);
+	}, [searchParams, setSearchParams]);
+
+	useEffect(() => {
+
+		let page = searchParams.get('page')
+		let rowsPerPage = searchParams.get('rowsPerPage')
+		let search = searchParams.get('search') || ''
+
+		setPage(+page);
+		setRowsPerPage(+rowsPerPage);
+		setSearch(search)
+
+		getProducts({ page, rowsPerPage, search }).then(res => {
 			if (res.data.status) {
-				// const cleanedString = res.data.data.products[0].image.replace(extra, '');
-				// const urlArray = cleanedString.split(',');
 				setProducts(res.data.data.products)
+				setTotalProduct(res.data.data.totalProduct)
 			}
 		})
-	}, [])
+	}, [searchParams]);
 
 	const handleChangePage = (
 		event: React.MouseEvent<HTMLButtonElement> | null,
 		newPage: number,
 	) => {
-		setPage(newPage);
+		searchParams.set("page", newPage.toString());
+		setSearchParams(searchParams);
 	};
 
 	const handleChangeRowsPerPage = (
@@ -39,6 +72,9 @@ export default function ProductList() {
 	) => {
 		setRowsPerPage(parseInt(event.target.value, 10));
 		setPage(0);
+		searchParams.set("page", 0);
+		searchParams.set("rowsPerPage", event.target.value);
+		setSearchParams(searchParams);
 	};
 
 	return (
@@ -56,8 +92,11 @@ export default function ProductList() {
 				</Typography>
 			</Container>
 			<Container maxWidth="xl" component="main">
-				<TextField id="filled-basic" label="Search product" variant="filled" sx={{ mx: 6, my: 2 }} />
-
+				<TextField id="filled-basic" label="Search product" variant="filled" sx={{ mx: 6, my: 2 }} onChange={(e) => {
+					searchParams.set("search", e.target.value);
+					searchParams.set("page", 0);
+					setSearchParams(searchParams);
+				}} />
 			</Container>
 			<Container maxWidth="xl" component="main">
 				<Grid container spacing={5} alignItems="flex-end" sx={{ mb: 5 }}>
@@ -105,16 +144,16 @@ export default function ProductList() {
 						</Grid>
 					))}
 				</Grid>
-				<Root sx={{ width: 500, maxWidth: '100%', m: 'auto' }}>
+				<Root sx={{ width: 700, maxWidth: '100%', m: 'auto' }}>
 					<table aria-label="custom pagination table">
 						<tfoot>
 							<tr>
 								<CustomTablePagination
-									rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+									rowsPerPageOptions={[5, 10, 25]}
 									colSpan={3}
-									count={13}
-									rowsPerPage={rowsPerPage}
-									page={page}
+									count={totalProduct || 1000}
+									rowsPerPage={+rowsPerPage || 5}
+									page={page || 0}
 									slotProps={{
 										select: {
 											'aria-label': 'rows per page',
@@ -131,6 +170,7 @@ export default function ProductList() {
 						</tfoot>
 					</table>
 				</Root>
+
 			</Container >
 		</>
 	);

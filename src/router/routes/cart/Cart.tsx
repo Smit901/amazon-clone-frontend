@@ -15,8 +15,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import data from "../product/productdata"
 
 function Cart() {
-
-
   const shopNow = () => {
     // navigate('/products')
   }
@@ -78,7 +76,6 @@ function Cart() {
                         >
                           +
                         </Button>
-
                         <Button>
                           <DeleteIcon
                             onClick={() => { }}
