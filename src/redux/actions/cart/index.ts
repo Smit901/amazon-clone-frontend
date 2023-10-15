@@ -1,5 +1,9 @@
 import actionTypes from "../actionTypes";
-import { addCartData, getCartData } from "../../../api/apiHandler";
+import {
+  addCartData,
+  getCartData,
+  removeCartData,
+} from "../../../api/apiHandler";
 
 export function getCart() {
   return async function (dispatch, getState) {
@@ -19,14 +23,6 @@ export function getCart() {
     });
   };
 }
-
-// {
-//   "product_id": 16,
-//   "product_name": "HERE&NOW",
-//   "product_image": "[\n        'https://firebasestorage.googleapis.com/v0/b/clothing-store-2.appspot.com/o/prod_image%2Fprod_image%2FID-cbd05dfc-6b4a-4967-95f6-c273e615f1b1-0.webp?alt=media',\n        'https://firebasestorage.googleapis.com/v0/b/clothing-store-2.appspot.com/o/prod_image%2Fprod_image%2FID-cbd05dfc-6b4a-4967-95f6-c273e615f1b1-1.webp?alt=media',\n        'https://firebasestorage.googleapis.com/v0/b/clothing-store-2.appspot.com/o/prod_image%2Fprod_image%2FID-cbd05dfc-6b4a-4967-95f6-c273e615f1b1-2.webp?alt=media'\n      ]",
-//   "quantity": 1,
-//   "price_per_unit": 679
-// }
 
 export function addCart({ data, qty }) {
   let totalPrice;
@@ -65,6 +61,38 @@ export function addCart({ data, qty }) {
         dispatch({ type: actionTypes.CHANGE_STATUS, payload: "success" });
         dispatch({
           type: actionTypes.ADD_CART,
+          payload: { cartData, totalPrice, totalQty },
+        });
+      }
+    });
+  };
+}
+
+export function removeCart(data) {
+  let totalPrice;
+  let totalQty;
+  let cartData;
+
+  return async function (dispatch, getState) {
+    const result = getState().cart.cart.find(
+      (val) => val.product_id === data.ProductId
+    );
+    if (result) {
+      totalQty = getState().cart.totalQty - result.quantity;
+      totalPrice =
+        getState().cart.totalPrice - result.price_per_unit * result.quantity;
+      cartData = getState().cart.cart.filter(
+        (val) => val.product_id !== data.ProductId
+      );
+    }
+    
+    dispatch({ type: actionTypes.CHANGE_STATUS, payload: "loading" });
+    removeCartData(data).then((res) => {
+      console.log(res)
+      if (res.data.status) {
+        dispatch({ type: actionTypes.CHANGE_STATUS, payload: "success" });
+        dispatch({
+          type: actionTypes.REMOVE_CART,
           payload: { cartData, totalPrice, totalQty },
         });
       }

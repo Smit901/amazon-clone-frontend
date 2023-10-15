@@ -2,7 +2,7 @@ import { axiosClient } from './apiClient';
 
 const config = {
 	headers: {
-			Authorization: localStorage.getItem('token'),
+			'authorization': localStorage.getItem('token'),
 			'accept-language': 'en',
 	},
 }
@@ -29,4 +29,8 @@ export function getCartData (data){
 
 export function addCartData (data){
 	return axiosClient.post('api/cart/add', data , config)
+}
+
+export function removeCartData (data){
+	return axiosClient.post('api/cart/remove', data , config)
 }

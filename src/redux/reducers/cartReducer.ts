@@ -26,6 +26,9 @@ export default function cartReducer(state = initialStateAccount, action) {
     case actionTypes.REMOVE_CART:
       return {
         ...state,
+        cart: action.payload.cartData,
+        totalPrice: action.payload.totalPrice,
+        totalQty: action.payload.totalQty
       };
     case actionTypes.UPDATE_CART:
       return {

@@ -11,10 +11,14 @@ import {
   Stack,
   Container,
   Skeleton,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useState } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom';
+import { removeCart } from '../../../redux/actions/cart';
 
 const extra = /[\[\]'\n\s]/g
 
@@ -23,14 +27,38 @@ function Cart() {
 
   const { cart, totalPrice, totalQty, status } = useSelector((store) => store.cart);
   const dispatch = useDispatch();
+
+  const [state, setState] = useState<State>({
+    open: false,
+    vertical: 'top',
+    horizontal: 'right',
+    severity: 'error',
+    message: ''
+  })
+  const { vertical, horizontal, open, severity, message } = state;
+
   const shopNow = () => {
-    navigate('/products')
+    navigate('/product')
   }
-  console.log(cart)
+
+  const handleClose = () => {
+    setState({ ...state, open: false, message: '' });
+  };
+
+  const handleCartDelete = (product_id) => {
+    dispatch(removeCart({ ProductId: product_id }))
+    // setState({ ...state, open: true, severity: 'success', message: 'Item removed from the cart successfully.' });
+  }
+
 
 
   return (
     <>
+    	<Snackbar anchorOrigin={{ vertical, horizontal }} key={vertical + horizontal} open={open} autoHideDuration={4000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity={severity} sx={{ width: '100%' }}>
+          {message}
+        </Alert>
+      </Snackbar>
       <Container disableGutters maxWidth="sm" component="main" sx={{ pt: 10, pb: 6 }}>
         <Typography
           component="h1"
@@ -62,10 +90,12 @@ function Cart() {
                       <img
                         src={product.product_image.replace(extra, '').split(',')[0]}
                         alt=""
+                        onClick={() => navigate(`/product/${product.product_id}`)}
                         style={{
                           width: "100px",
-                          height: "100px",
-                          objectFit: "cover",
+                          height: "130px",
+                          objectFit: "fill",
+                          cursor: "pointer"
                         }}
                       />
                     </TableCell>
@@ -88,7 +118,7 @@ function Cart() {
                         </Button>
                         <Button>
                           <DeleteIcon
-                            onClick={() => { }}
+                            onClick={() => { handleCartDelete(product.product_id) }}
                           />
                         </Button>
                       </Stack>
@@ -132,7 +162,7 @@ function Cart() {
                 <TableCell>Bill</TableCell>
                 <TableCell>Quantity : {totalQty}</TableCell>
                 <TableCell>Price : {totalPrice}</TableCell>
-                <Button variant="contained" onClick={() => {}}>
+                <Button variant="contained" onClick={() => { }}>
                   PayNow
                 </Button>
               </TableRow>

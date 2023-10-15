@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Box, CardMedia, Container, Grid, Typography, ButtonGroup, Button } from '@mui/material'
-import { useParams } from 'react-router-dom'
+import { Box, CardMedia, Container, Grid, Typography, ButtonGroup, Button, Snackbar, Alert } from '@mui/material'
+import { useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { isEmpty } from 'lodash';
 import { getSingleProduct } from '../../../api/apiHandler';
+import { addCart } from '../../../redux/actions/cart';
 
 
 const imageStyle = { borderRadius: 2, objectFit: 'fill', cursor: 'pointer', height: 120, width: 100 }
@@ -10,8 +12,19 @@ const extra = /[\[\]'\n\s]/g
 
 const Product = () => {
   const { id } = useParams();
+  const dispatch = useDispatch();
   const [product, setProduct] = useState([]);
   const [image, setImage] = useState();
+  const [qty, setQty] = useState(1);
+
+  const [state, setState] = useState<State>({
+    open: false,
+    vertical: 'top',
+    horizontal: 'right',
+    severity: 'error',
+    message: ''
+  })
+  const { vertical, horizontal, open, severity, message } = state;
 
   useEffect(() => {
     getSingleProduct({ id }).then(res => {
@@ -24,8 +37,30 @@ const Product = () => {
     })
   }, [])
 
+  const handleAdd = () => {
+    if (qty < 10) setQty(prev => prev + 1)
+  }
+
+  const handleRemove = () => {
+    if (qty > 1) setQty(prev => prev - 1)
+  }
+
+  const handleClose = () => {
+    setState({ ...state, open: false, message: '' });
+  };
+
+  const handleAddCart = () => {
+    dispatch(addCart({data: product, qty}))
+		setState({ ...state, open: true, severity: 'success', message: 'Item added to the cart successfully' });
+  }
+
   return (
     <>
+    	<Snackbar anchorOrigin={{ vertical, horizontal }} key={vertical + horizontal} open={open} autoHideDuration={4000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity={severity} sx={{ width: '100%' }}>
+          {message}
+        </Alert>
+      </Snackbar>
       {!isEmpty(product) ? <Container disableGutters maxWidth="lg" component="main" sx={{ pt: 10, pb: 6 }}>
         <Grid container spacing={2} sx={{ mt: 5 }}>
           <Grid item xs={6} sx={{ display: 'flex', margin: 'auto', justifyContent: 'center' }}>
@@ -57,13 +92,13 @@ const Product = () => {
               <Grid container spacing={2}>
                 <Grid item xs={4}>
                   <ButtonGroup variant="outlined" aria-label="outlined button group">
-                    <Button>-</Button>
-                    <Button>1</Button>
-                    <Button>+</Button>
+                    <Button onClick={handleRemove}>-</Button>
+                    <Button>{qty}</Button>
+                    <Button onClick={handleAdd}>+</Button>
                   </ButtonGroup>
                 </Grid>
                 <Grid item xs={8}>
-                  <Button variant="contained" fullWidth>Add to Cart</Button>
+                  <Button variant="contained" fullWidth onClick={handleAddCart}>Add to Cart</Button>
                 </Grid>
               </Grid>
             </Box>
@@ -91,7 +126,7 @@ const Product = () => {
           minHeight: '70vh'
         }}
       >
-        <Typography variant="h6" sx={{mb: 3}}>
+        <Typography variant="h6" sx={{ mb: 3 }}>
           The page you’re looking for doesn’t exist.
         </Typography>
         <Button variant="contained" onClick={() => navigate("/product")}>Back to shop page</Button>
