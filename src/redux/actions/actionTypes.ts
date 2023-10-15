@@ -1,6 +1,15 @@
+const GET_CART = "GET_CART";
+const ADD_CART = "ADD_CART";
+const REMOVE_CART = "REMOVE_CART";
+const UPDATE_CART = "UPDATE_CART";
+const EMPTY_CART = "EMPTY_CART";
+const CHANGE_STATUS = "CHANGE_STATUS";
 
-export const GET_CART = 'GET_CART'
-export const ADD_CART = 'ADD_CART'
-export const REMOVE_CART = 'REMOVE_CART'
-export const UPDATE_CART = 'UPDATE_CART'
-export const EMPTY_CART = 'EMPTY_CART'
+export default {
+  GET_CART,
+  ADD_CART,
+  REMOVE_CART,
+  UPDATE_CART,
+  EMPTY_CART,
+  CHANGE_STATUS,
+};

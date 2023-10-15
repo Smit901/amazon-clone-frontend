@@ -1,5 +1,12 @@
 import { axiosClient } from './apiClient';
 
+const config = {
+	headers: {
+			Authorization: localStorage.getItem('token'),
+			'accept-language': 'en',
+	},
+}
+
 export function userRegister (data){
 	return axiosClient.post("api/auth/register", data);
 }
@@ -14,4 +21,12 @@ export function getProducts (data){
 
 export function getSingleProduct (data){
 	return axiosClient.get(`api/products/${data.id}`, data)
+}
+
+export function getCartData (data){
+	return axiosClient.get('api/cart', data, config)
+}
+
+export function addCart (data){
+	return axiosClient.post('api/cart/add', data , config)
 }

@@ -1,15 +1,18 @@
 import * as React from 'react';
-import { Container, AppBar, Toolbar, Typography, Box, IconButton, Menu, MenuItem, Tooltip, Button, Avatar } from '@mui/material';
+import { Container, AppBar, Toolbar, Typography, Box, IconButton, Menu, MenuItem, Tooltip, Button, Avatar, Badge } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { ShoppingCart } from '@mui/icons-material';
 import useUserContext from '../../utility/hooks/useUserContext';
+import {useSelector} from 'react-redux'
 
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function Header() {
   const navigate = useNavigate();
+  const { cart } = useSelector((store) => store.cart);
+  const cartLength = cart.length;
   const { token } = useUserContext()
   const pages = token ? ['home', 'product'] : ['home', 'product', 'login', 'register']
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -91,8 +94,10 @@ function Header() {
             ))}
           </Box>
           {token && <>
-            <ShoppingCart sx={{ color: 'primary.main', mr: 2, height: 30, width: 35, cursor: 'pointer' }} onClick={() => navigate("/cart")} />
-            <Box sx={{ flexGrow: 0 }}>
+            <Badge badgeContent={cartLength}  color="primary">
+              <ShoppingCart sx={{ color: 'primary.main', height: 30, width: 35, cursor: 'pointer' }} onClick={() => navigate("/cart")} />
+            </Badge>
+            <Box sx={{ flexGrow: 0,ml: 3 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar alt="Remy Sharp" src="/avatar.jpg" />
@@ -115,10 +120,10 @@ function Header() {
                 onClose={handleCloseUserMenu}
               >
                 {settings.map((setting) => (
-                   <NavLink to={`/${setting.toLocaleLowerCase()}`} className='header__link' key={setting}>
-                  <MenuItem onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
-                  </MenuItem>
+                  <NavLink to={`/${setting.toLocaleLowerCase()}`} className='header__link' key={setting}>
+                    <MenuItem onClick={handleCloseUserMenu}>
+                      <Typography textAlign="center">{setting}</Typography>
+                    </MenuItem>
                   </NavLink>
                 ))}
               </Menu>

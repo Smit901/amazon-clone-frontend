@@ -11,15 +11,19 @@ import Product from './routes/product/Product';
 import Cart from './routes/cart/Cart';
 import { AuthContext } from '../utility/context/AuthContext';
 import Logout from './routes/auth/Logout';
+import { getCart } from '../redux/actions/cart';
+import { useDispatch } from "react-redux";
 
 const Router = () => {
 	const { login } = useContext(AuthContext);
+	const dispatch = useDispatch();
 
 	const token = localStorage.getItem('token');
 
 	useEffect(() => {
 		if (token) {
 			login(token);
+			dispatch(getCart())
 		}
 	}, [])
 

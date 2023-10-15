@@ -10,17 +10,23 @@ import {
   Button,
   Stack,
   Container,
+  Skeleton,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useSelector } from "react-redux";
-import data from "../product/productdata"
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from 'react-router-dom';
+
+const extra = /[\[\]'\n\s]/g
 
 function Cart() {
+  const navigate = useNavigate();
 
-  const cartData = useSelector((store) => store.cart);
+  const { cart, totalPrice, totalQty, status } = useSelector((store) => store.cart);
+  const dispatch = useDispatch();
   const shopNow = () => {
-    // navigate('/products')
+    navigate('/products')
   }
+
 
   return (
     <>
@@ -36,7 +42,7 @@ function Cart() {
         </Typography>
       </Container>
       <Container maxWidth="lg" component="main">
-        {data.length > 0 ? (
+        {cart.length > 0 ? (
           <TableContainer component={Paper}>
             <Table>
               <TableHead>
@@ -49,11 +55,11 @@ function Cart() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {data.map((product) => (
-                  <TableRow key={product.id}>
+                {cart.length > 0 && cart.map((product) => (
+                  <TableRow key={product.product_id}>
                     <TableCell>
                       <img
-                        src={product.thumbnail}
+                        src={product.product_image.replace(extra, '').split(',')[0]}
                         alt=""
                         style={{
                           width: "100px",
@@ -62,9 +68,9 @@ function Cart() {
                         }}
                       />
                     </TableCell>
-                    <TableCell>{product.title}</TableCell>
-                    <TableCell>{product.price}</TableCell>
-                    <TableCell>{3}</TableCell>
+                    <TableCell>{product.product_name}</TableCell>
+                    <TableCell>{product.price_per_unit}</TableCell>
+                    <TableCell>{product.quantity}</TableCell>
                     <TableCell>
                       <Stack direction="row" spacing={1}>
                         <Button
@@ -115,13 +121,16 @@ function Cart() {
 
           </>
         )}
-        {data.length > 0 && (
+        {status === 'loading' && <><Skeleton animation="wave" width='100%' height={100} />
+          <Skeleton animation="wave" width='100%' height={100} />
+          <Skeleton animation="wave" width='100%' height={100} /><Skeleton animation="wave" width='100%' height={100} /><Skeleton animation="wave" width='100%' height={100} /></>}
+        {cart.length > 0 && (
           <TableContainer component={Paper} sx={{ mt: 2 }}>
             <Table>
               <TableRow>
                 <TableCell>Bill</TableCell>
-                <TableCell>Quantity : { }</TableCell>
-                <TableCell>Price : { }</TableCell>
+                <TableCell>Quantity : {totalQty}</TableCell>
+                <TableCell>Price : {totalPrice}</TableCell>
                 <Button variant="contained" onClick={() => { }}>
                   PayNow
                 </Button>

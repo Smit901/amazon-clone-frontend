@@ -1,19 +1,39 @@
-import axios from "axios"
+import axios from "axios";
 
 const axiosClient = axios.create({
-  baseURL: 'http://localhost:3000/'
+  baseURL: "http://localhost:3000/",
+  headers: {
+    "accept-language": "en",
+  },
 });
 
-axios.interceptors.request.use(function (config) {
-	return config;
-}, function (error) {
-	return Promise.reject(error);
-});
+axios.interceptors.request.use(
+  function (config) {
+    if (
+      localStorage.getItem("token") !== undefined ||
+      localStorage.getItem("token") !== null
+    ) {
+      config.headers["authorization"] = localStorage.getItem("token");
+    }
+		console.log(config)
+    return config;
+  },
+  function (error) {
+    return Promise.reject(error);
+  }
+);
 
-axios.interceptors.response.use(function (response) {
-	return response;
-}, function (error) {
-	return Promise.reject(error);
-});
+axios.interceptors.response.use(
+  function (response) {
+    return response;
+  },
+  function (error) {
+    return Promise.reject(error);
+  }
+);
+
+axiosClient.defaults.headers.common['Authorization'] = localStorage.getItem('token');
+axiosClient.defaults.headers.common['accept-language'] = 'en';
+
 
 export { axiosClient };

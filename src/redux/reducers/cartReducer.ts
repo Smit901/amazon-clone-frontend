@@ -1,23 +1,39 @@
+import actionTypes from "../actions/actionTypes";
+
 const initialStateAccount = {
   cart: [],
-  cartCount: 0,
+  totalPrice: 0,
+  totalQty: 0,
+  status: "", // success | loading | error
 };
 
 export default function cartReducer(state = initialStateAccount, action) {
   switch (action.type) {
-    case "cart":
+    case actionTypes.GET_CART:
       return {
         ...state,
+        cart: action.payload.products,
+        totalPrice: action.payload.totalPrice,
+        totalQty: action.payload.totalQty
       };
-    case "cart/add":
+    case actionTypes.ADD_CART:
       return { ...state };
-    case "cart/remove":
+    case actionTypes.REMOVE_CART:
       return {
         ...state,
       };
-    case "cart/update":
+    case actionTypes.UPDATE_CART:
       return {
         ...state,
+      };
+    case actionTypes.EMPTY_CART:
+      return {
+        ...state,
+      };
+    case actionTypes.CHANGE_STATUS:
+      return {
+        ...state,
+        status: action.payload
       };
     default:
       return state;

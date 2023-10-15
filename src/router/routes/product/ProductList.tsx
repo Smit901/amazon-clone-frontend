@@ -6,7 +6,8 @@ import {
 	TablePagination,
 	tablePaginationClasses as classes,
 } from '@mui/base/TablePagination';
-import { getProducts } from '../../../api/apiHandler';
+import { addCart, getProducts } from '../../../api/apiHandler';
+import ProductCard from './ProductCard';
 
 const extra = /[\[\]'\n\s]/g
 
@@ -23,6 +24,12 @@ export default function ProductList() {
 	// let pageNo = searchParams.get("pageNo");
 	// let searchString = searchParams.get("search");
 	// let pageLimit = searchParams.get("recordLimit");
+
+	const handleAddCart = (data) => {
+		addCart(data).then(res => {
+			console.log(res)
+		})
+	}
 
 	const defalutQueryString = {
 		page,
@@ -43,9 +50,9 @@ export default function ProductList() {
 
 	useEffect(() => {
 
-		let page = +searchParams.get('page')
-		let rowsPerPage = +searchParams.get('rowsPerPage')
-		let search = searchParams.get('search') || ''
+		const page = +searchParams.get('page')
+		const rowsPerPage = +searchParams.get('rowsPerPage')
+		const search = searchParams.get('search') || ''
 
 		setPage(+page);
 		setRowsPerPage(+rowsPerPage);
@@ -106,49 +113,7 @@ export default function ProductList() {
 			</Container>
 			<Container maxWidth="xl" component="main">
 				<Grid container spacing={5} alignItems="flex-end" sx={{ mb: 5 }}>
-					{products.length > 0 && products.map((val, index) => (
-						<Grid
-							item
-							key={val.name + index}
-							sx={{ mx: 6, my: 2 }}
-							xs={12}
-							sm={6}
-							md={3}
-							xl={2}
-						>
-							<Card sx={{ minWidth: 275, cursor: 'pointer', borderRadius: 2, boxShadow: 3 }}>
-								<CardContent onClick={() => navigate(`/product/${val.id}`)}>
-									<CardMedia
-										component="img"
-										image={val.image.replace(extra, '').split(',')[0]}
-										sx={{ borderRadius: 2, objectFit: 'cover', height: '250px' }}
-										alt={val.name}
-									/>
-									<Typography variant="h6" component="div" sx={{ mt: 2 }}>
-										{val.name}
-									</Typography>
-									<Typography sx={{ mb: 1.5 }} color="text.secondary">
-										Price: {val.price}
-									</Typography>
-									<Typography variant="body2" sx={{
-										whiteSpace: 'nowrap',
-										overflow: 'hidden',
-										textOverflow: 'ellipsis'
-									}}>
-										{val.description}
-									</Typography>
-								</CardContent>
-								<CardActions>
-									<Button
-										fullWidth
-										variant='contained'
-									>
-										add to cart
-									</Button>
-								</CardActions>
-							</Card>
-						</Grid>
-					))}
+					{products.length > 0 && products.map((val, index) => <ProductCard val={val} key={val.id} index={index} />)}
 				</Grid>
 				<Root sx={{ width: 700, maxWidth: '100%', m: 'auto' }}>
 					<table aria-label="custom pagination table">
