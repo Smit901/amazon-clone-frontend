@@ -26,6 +26,7 @@ function Cart() {
   const shopNow = () => {
     navigate('/products')
   }
+  console.log(cart)
 
 
   return (
@@ -131,7 +132,7 @@ function Cart() {
                 <TableCell>Bill</TableCell>
                 <TableCell>Quantity : {totalQty}</TableCell>
                 <TableCell>Price : {totalPrice}</TableCell>
-                <Button variant="contained" onClick={() => { }}>
+                <Button variant="contained" onClick={() => {}}>
                   PayNow
                 </Button>
               </TableRow>

@@ -25,12 +25,7 @@ export default function ProductList() {
 	// let searchString = searchParams.get("search");
 	// let pageLimit = searchParams.get("recordLimit");
 
-	const handleAddCart = (data) => {
-		addCart(data).then(res => {
-			console.log(res)
-		})
-	}
-
+	
 	const defalutQueryString = {
 		page,
 		rowsPerPage,

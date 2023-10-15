@@ -27,6 +27,6 @@ export function getCartData (data){
 	return axiosClient.get('api/cart', data, config)
 }
 
-export function addCart (data){
+export function addCartData (data){
 	return axiosClient.post('api/cart/add', data , config)
 }

@@ -13,11 +13,16 @@ export default function cartReducer(state = initialStateAccount, action) {
       return {
         ...state,
         cart: action.payload.products,
+        totalPrice: action.payload.totalPrice,  
+        totalQty: action.payload.totalQty,
+      };
+    case actionTypes.ADD_CART:
+      return {
+        ...state,
+        cart: action.payload.cartData,
         totalPrice: action.payload.totalPrice,
         totalQty: action.payload.totalQty
       };
-    case actionTypes.ADD_CART:
-      return { ...state };
     case actionTypes.REMOVE_CART:
       return {
         ...state,
@@ -33,7 +38,7 @@ export default function cartReducer(state = initialStateAccount, action) {
     case actionTypes.CHANGE_STATUS:
       return {
         ...state,
-        status: action.payload
+        status: action.payload,
       };
     default:
       return state;

@@ -1,17 +1,17 @@
 import { Button, Card, CardActions, CardContent, CardMedia, Grid, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-import { addCart } from '../../../api/apiHandler'
+import { addCart } from '../../../redux/actions/cart'
+import { useDispatch } from 'react-redux'
 
 const extra = /[\[\]'\n\s]/g
 
 const ProductCard = ({ val, index }) => {
 	const navigate = useNavigate()
-	
+	const dispatch = useDispatch()
+
 
 	const handleAddCart = (data) => {
-		addCart(data).then(res => {
-			console.log(res)
-		})
+		dispatch(addCart({data, qty: 1}))
 	}
 
 	return (
@@ -50,10 +50,7 @@ const ProductCard = ({ val, index }) => {
 					<Button
 						fullWidth
 						variant='contained'
-						onClick={() => handleAddCart({
-							"ProductId": val.id,
-							"quantity": 1
-						})}
+						onClick={() => handleAddCart(val)}
 					>
 						add to cart
 					</Button>
