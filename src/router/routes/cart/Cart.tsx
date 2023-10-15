@@ -12,9 +12,12 @@ import {
   Container,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useSelector } from "react-redux";
 import data from "../product/productdata"
 
 function Cart() {
+
+  const cartData = useSelector((store) => store.cart);
   const shopNow = () => {
     // navigate('/products')
   }

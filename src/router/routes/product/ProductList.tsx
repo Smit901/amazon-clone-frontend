@@ -65,16 +65,22 @@ export default function ProductList() {
 	) => {
 		searchParams.set("page", newPage.toString());
 		setSearchParams(searchParams);
+		window.scrollTo({
+			top: 0,
+			behavior: 'smooth'
+		});
 	};
 
 	const handleChangeRowsPerPage = (
 		event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
 	) => {
-		setRowsPerPage(parseInt(event.target.value, 10));
-		setPage(0);
 		searchParams.set("page", 0);
 		searchParams.set("rowsPerPage", event.target.value);
 		setSearchParams(searchParams);
+		window.scrollTo({
+			top: 0,
+			behavior: 'smooth'
+		});
 	};
 
 	return (
