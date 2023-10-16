@@ -34,3 +34,7 @@ export function addCartData (data){
 export function removeCartData (data){
 	return axiosClient.post('api/cart/remove', data , config)
 }
+
+export function updateCartData (data){
+	return axiosClient.patch('api/cart/update', data, config)
+}

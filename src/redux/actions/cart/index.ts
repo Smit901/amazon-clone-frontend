@@ -3,6 +3,7 @@ import {
   addCartData,
   getCartData,
   removeCartData,
+  updateCartData,
 } from "../../../api/apiHandler";
 
 export function getCart() {
@@ -85,10 +86,10 @@ export function removeCart(data) {
         (val) => val.product_id !== data.ProductId
       );
     }
-    
+
     dispatch({ type: actionTypes.CHANGE_STATUS, payload: "loading" });
     removeCartData(data).then((res) => {
-      console.log(res)
+      console.log(res);
       if (res.data.status) {
         dispatch({ type: actionTypes.CHANGE_STATUS, payload: "success" });
         dispatch({
@@ -97,5 +98,47 @@ export function removeCart(data) {
         });
       }
     });
+  };
+}
+
+export function updateCart(data) {
+  let totalPrice;
+  let totalQty;
+  let cartData;
+
+  return async function (dispatch, getState) {
+    const result = getState().cart.cart.find(
+      (val) => val.product_id === data.ProductId
+    );
+    if (result) {
+      if (data.quantity > 0) {
+        if (result.quantity > data.quantity) {
+          totalQty = getState().cart.totalQty - 1;
+          totalPrice = getState().cart.totalPrice - result.price_per_unit;
+        } else {
+          totalQty = getState().cart.totalQty + 1;
+          totalPrice = getState().cart.totalPrice + result.price_per_unit;
+        }
+
+        cartData = getState().cart.cart.map((val) =>
+          val.product_id === data.ProductId
+            ? { ...val, quantity: data.quantity }
+            : val
+        );
+      }
+    }
+
+    if (data.quantity > 0) {
+      dispatch({ type: actionTypes.CHANGE_STATUS, payload: "loading" });
+      updateCartData(data).then((res) => {
+        if (res.data.status) {
+          dispatch({ type: actionTypes.CHANGE_STATUS, payload: "success" });
+          dispatch({
+            type: actionTypes.UPDATE_CART,
+            payload: { cartData, totalPrice, totalQty },
+          });
+        }
+      });
+    }
   };
 }

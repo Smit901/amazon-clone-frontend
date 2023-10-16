@@ -19,6 +19,7 @@ import { useState } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import { removeCart } from '../../../redux/actions/cart';
+import CartCard from './CartCard';
 
 const extra = /[\[\]'\n\s]/g
 
@@ -44,17 +45,11 @@ function Cart() {
   const handleClose = () => {
     setState({ ...state, open: false, message: '' });
   };
-
-  const handleCartDelete = (product_id) => {
-    dispatch(removeCart({ ProductId: product_id }))
-    // setState({ ...state, open: true, severity: 'success', message: 'Item removed from the cart successfully.' });
-  }
-
-
+  
 
   return (
     <>
-    	<Snackbar anchorOrigin={{ vertical, horizontal }} key={vertical + horizontal} open={open} autoHideDuration={4000} onClose={handleClose}>
+      <Snackbar anchorOrigin={{ vertical, horizontal }} key={vertical + horizontal} open={open} autoHideDuration={4000} onClose={handleClose}>
         <Alert onClose={handleClose} severity={severity} sx={{ width: '100%' }}>
           {message}
         </Alert>
@@ -84,47 +79,7 @@ function Cart() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {cart.length > 0 && cart.map((product) => (
-                  <TableRow key={product.product_id}>
-                    <TableCell>
-                      <img
-                        src={product.product_image.replace(extra, '').split(',')[0]}
-                        alt=""
-                        onClick={() => navigate(`/product/${product.product_id}`)}
-                        style={{
-                          width: "100px",
-                          height: "130px",
-                          objectFit: "fill",
-                          cursor: "pointer"
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell>{product.product_name}</TableCell>
-                    <TableCell>{product.price_per_unit}</TableCell>
-                    <TableCell>{product.quantity}</TableCell>
-                    <TableCell>
-                      <Stack direction="row" spacing={1}>
-                        <Button
-                          variant="contained"
-                          onClick={() => { }}
-                        >
-                          -
-                        </Button>
-                        <Button
-                          variant="contained"
-                          onClick={() => { }}
-                        >
-                          +
-                        </Button>
-                        <Button>
-                          <DeleteIcon
-                            onClick={() => { handleCartDelete(product.product_id) }}
-                          />
-                        </Button>
-                      </Stack>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {cart.length > 0 && cart.map((product) => <CartCard product={product} key={product.product_id} />)}
               </TableBody>
             </Table>
           </TableContainer>
@@ -152,14 +107,10 @@ function Cart() {
 
           </>
         )}
-        {status === 'loading' && <><Skeleton animation="wave" width='100%' height={100} />
-          <Skeleton animation="wave" width='100%' height={100} />
-          <Skeleton animation="wave" width='100%' height={100} /><Skeleton animation="wave" width='100%' height={100} /><Skeleton animation="wave" width='100%' height={100} /></>}
         {cart.length > 0 && (
           <TableContainer component={Paper} sx={{ mt: 2 }}>
             <Table>
               <TableRow>
-                <TableCell>Bill</TableCell>
                 <TableCell>Quantity : {totalQty}</TableCell>
                 <TableCell>Price : {totalPrice}</TableCell>
                 <Button variant="contained" onClick={() => { }}>
