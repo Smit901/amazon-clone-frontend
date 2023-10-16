@@ -18,7 +18,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useState } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom';
-import { removeCart } from '../../../redux/actions/cart';
+import { emptyCart, removeCart } from '../../../redux/actions/cart';
 import CartCard from './CartCard';
 
 const extra = /[\[\]'\n\s]/g
@@ -45,7 +45,11 @@ function Cart() {
   const handleClose = () => {
     setState({ ...state, open: false, message: '' });
   };
-  
+
+  const handleEmptyCart = () => {
+    dispatch(emptyCart());
+  }
+
 
   return (
     <>
@@ -65,24 +69,34 @@ function Cart() {
           Cart
         </Typography>
       </Container>
+
       <Container maxWidth="lg" component="main">
         {cart.length > 0 ? (
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Image</TableCell>
-                  <TableCell>Title</TableCell>
-                  <TableCell>Price</TableCell>
-                  <TableCell>Quantity</TableCell>
-                  <TableCell>Action</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {cart.length > 0 && cart.map((product) => <CartCard product={product} key={product.product_id} />)}
-              </TableBody>
-            </Table>
-          </TableContainer>
+          <>
+            <Button
+              variant="contained"
+              sx={{mb: 5}}
+              onClick={handleEmptyCart}
+            >
+              Clear Cart
+            </Button>
+            <TableContainer component={Paper}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Image</TableCell>
+                    <TableCell>Title</TableCell>
+                    <TableCell>Price</TableCell>
+                    <TableCell>Quantity</TableCell>
+                    <TableCell>Action</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {cart.length > 0 && cart.map((product) => <CartCard product={product} key={product.product_id} />)}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </>
         ) : (
           <>
             <Typography

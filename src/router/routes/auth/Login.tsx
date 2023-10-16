@@ -7,10 +7,13 @@ import { useForm } from "react-hook-form";
 import { NavLink, useNavigate } from 'react-router-dom';
 import { userLogin } from '../../../api/apiHandler';
 import useUserContext from '../../../utility/hooks/useUserContext';
+import { getCart } from '../../../redux/actions/cart';
+import { useDispatch } from 'react-redux';
 
 export default function Login() {
   const { token, login, logout } = useUserContext();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [state, setState] = React.useState<State>({
     open: false,
     vertical: 'top',

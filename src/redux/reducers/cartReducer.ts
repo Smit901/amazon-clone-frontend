@@ -40,6 +40,9 @@ export default function cartReducer(state = initialStateAccount, action) {
     case actionTypes.EMPTY_CART:
       return {
         ...state,
+        cart: [],
+        totalPrice: 0,
+        totalQty: 0
       };
     case actionTypes.CHANGE_STATUS:
       return {

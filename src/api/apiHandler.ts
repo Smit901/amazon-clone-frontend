@@ -38,3 +38,7 @@ export function removeCartData (data){
 export function updateCartData (data){
 	return axiosClient.patch('api/cart/update', data, config)
 }
+
+export function removeAllCartData (data){
+	return axiosClient.delete('api/cart/removeAll', data, config)
+}

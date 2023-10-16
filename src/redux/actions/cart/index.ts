@@ -2,6 +2,7 @@ import actionTypes from "../actionTypes";
 import {
   addCartData,
   getCartData,
+  removeAllCartData,
   removeCartData,
   updateCartData,
 } from "../../../api/apiHandler";
@@ -140,5 +141,17 @@ export function updateCart(data) {
         }
       });
     }
+  };
+}
+
+export function emptyCart() {
+  return async function (dispatch, getState) {
+    removeAllCartData({}).then((res) => {
+      if (res.data.status) {
+        dispatch({
+          type: actionTypes.EMPTY_CART,
+        });
+      }
+    });
   };
 }
