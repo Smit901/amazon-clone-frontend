@@ -1,18 +1,20 @@
 import { useEffect, useContext } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useDispatch } from "react-redux";
+
+// *** Custom Components or functions
 import Header from '../components/header/Header';
+import Footer from '../components/footer/Footer';
 import Login from './routes/auth/Login';
 import Register from './routes/auth/Register';
-import ProductList from './routes/product/ProductList';
-import Footer from '../components/footer/Footer';
 import Home from './routes/home/Home';
-import Error from './routes/404/Error';
+import ProductList from './routes/product/ProductList';
 import Product from './routes/product/Product';
 import Cart from './routes/cart/Cart';
-import { AuthContext } from '../utility/context/AuthContext';
+import Error from './routes/404/Error';
 import Logout from './routes/auth/Logout';
+import { AuthContext } from '../utility/context/AuthContext';
 import { getCart } from '../redux/actions/cart';
-import { useDispatch } from "react-redux";
 
 const Router = () => {
 	const { login } = useContext(AuthContext);

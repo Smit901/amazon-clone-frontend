@@ -1,19 +1,20 @@
-import React from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import * as Yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+
+// *** MUI
 import { Avatar, Box, Button, CssBaseline, Grid, InputLabel, TextField, Link, Typography, Container } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as Yup from "yup";
-import { useForm } from "react-hook-form";
-import { NavLink, useNavigate } from 'react-router-dom';
+
+// *** Custom Components or functions
 import { userLogin } from '../../../api/apiHandler';
 import useUserContext from '../../../utility/hooks/useUserContext';
-import { useDispatch } from 'react-redux';
 import { showNotification } from '../../../utility/showNotification';
 
-export default function Login() {
-  const { token, login, logout } = useUserContext();
+function Login() {
+  const { login } = useUserContext();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().email("Email is invalid").required("Email is required"),
@@ -119,3 +120,5 @@ export default function Login() {
     </Container>
   );
 }
+
+export default Login

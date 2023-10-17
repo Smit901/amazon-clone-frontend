@@ -1,7 +1,8 @@
-import { Box, Button, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+// *** MUI
+import { Box, Button, Typography } from '@mui/material';
 
-export default function Error() {
+function Error() {
   const navigate = useNavigate()
   return (
     <Box
@@ -23,3 +24,5 @@ export default function Error() {
     </Box>
   );
 }
+
+export default Error;

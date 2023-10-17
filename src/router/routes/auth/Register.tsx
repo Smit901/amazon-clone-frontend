@@ -1,15 +1,18 @@
-import React from 'react';
-import { Avatar, Box, Button, CssBaseline, Grid, InputLabel, TextField, Typography, Container, Snackbar, Alert } from '@mui/material';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { yupResolver } from "@hookform/resolvers/yup";
+import { NavLink, useNavigate } from 'react-router-dom';
 import * as Yup from "yup";
 import { useForm } from "react-hook-form";
-import { NavLink, useNavigate } from 'react-router-dom';
+import { yupResolver } from "@hookform/resolvers/yup";
+
+// *** MUI
+import { Avatar, Box, Button, CssBaseline, Grid, InputLabel, TextField, Typography, Container } from '@mui/material';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+
+// *** Custom Components or functions
 import { userRegister } from '../../../api/apiHandler';
 import { showNotification } from '../../../utility/showNotification';
 
 
-export default function Register() {
+function Register() {
   const navigate = useNavigate();
 
   const validationSchema = Yup.object().shape({
@@ -133,3 +136,5 @@ export default function Register() {
     </Container>
   );
 }
+
+export default Register;

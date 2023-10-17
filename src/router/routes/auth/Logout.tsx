@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+
+// *** Custom Components or functions
 import useUserContext from '../../../utility/hooks/useUserContext';
 import { useDispatch } from 'react-redux';
 import { emptyLocalCart } from '../../../redux/actions/cart';
 
-export default function Logout() {
+function Logout() {
 	const navigate = useNavigate();
 	const { logout } = useUserContext();
 	const dispatch = useDispatch();
@@ -19,3 +21,5 @@ export default function Logout() {
 
 	return;
 }
+
+export default Logout;

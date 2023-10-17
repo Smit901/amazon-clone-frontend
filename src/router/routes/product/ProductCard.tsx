@@ -1,11 +1,15 @@
-import { Button, Card, CardActions, CardContent, CardMedia, Grid, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-import { addCart } from '../../../redux/actions/cart'
 import { useDispatch } from 'react-redux'
+
+// *** MUI
+import { Button, Card, CardActions, CardContent, CardMedia, Grid, Typography } from '@mui/material'
+
+// *** Custom Components or functions
+import { addCart } from '../../../redux/actions/cart'
 
 const extra = /[\[\]'\n\s]/g
 
-const ProductCard = ({ val, index }) => {
+function ProductCard({ val, index }){
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
 

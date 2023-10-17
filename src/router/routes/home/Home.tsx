@@ -1,5 +1,4 @@
-
-const Home = () => {
+function Home(){
 	return (
 		<div style={{ marginTop: "100px", height: "100vh" }}>
 			<center>

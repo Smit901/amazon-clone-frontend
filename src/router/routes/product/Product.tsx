@@ -1,16 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { Box, CardMedia, Container, Grid, Typography, ButtonGroup, Button, Snackbar, Alert, CssBaseline } from '@mui/material'
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { isEmpty } from 'lodash';
+
+// *** MUI
+import { Box, CardMedia, Container, Grid, Typography, ButtonGroup, Button, CssBaseline } from '@mui/material'
+
+// *** Custom Components or functions
 import { getSingleProduct } from '../../../api/apiHandler';
 import { addCart } from '../../../redux/actions/cart';
-
 
 const imageStyle = { borderRadius: 2, objectFit: 'fill', cursor: 'pointer', height: 120, width: 100 }
 const extra = /[\[\]'\n\s]/g
 
-const Product = () => {
+function Product(){
   const { id } = useParams();
   const dispatch = useDispatch();
   const [product, setProduct] = useState([]);
@@ -42,7 +45,7 @@ const Product = () => {
 
   return (
     <>
-    <CssBaseline />
+      <CssBaseline />
       {!isEmpty(product) ? <Container disableGutters maxWidth="lg" component="main" sx={{ pt: 10, pb: 6 }}>
         <Grid container spacing={2} sx={{ mt: 5 }}>
           <Grid item xs={6} sx={{ display: 'flex', margin: 'auto', justifyContent: 'center' }}>
@@ -99,7 +102,7 @@ const Product = () => {
             }
           </Grid>
         </Grid>
-      </Container> : <> <Box
+      </Container> : <Box
         sx={{
           display: 'flex',
           justifyContent: 'center',
@@ -112,8 +115,8 @@ const Product = () => {
           The page you’re looking for doesn’t exist.
         </Typography>
         <Button variant="contained" onClick={() => navigate("/product")}>Back to shop page</Button>
-      </Box></>}
-
+      </Box>
+      }
     </>
   )
 }

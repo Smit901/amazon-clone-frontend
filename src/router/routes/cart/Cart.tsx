@@ -1,20 +1,12 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Typography,
-  Button,
-  Container,
-  Snackbar,
-  Alert,
-} from "@mui/material";
-import { useState } from 'react';
-import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from "react-redux";
+
+// *** MUI
+import {
+  Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Button, Container, CssBaseline,
+} from "@mui/material";
+
+// *** Custom Components or functions
 import { emptyCart } from '../../../redux/actions/cart';
 import CartCard from './CartCard';
 
@@ -24,35 +16,17 @@ function Cart() {
   const { cart, totalPrice, totalQty } = useSelector((store) => store.cart);
   const dispatch = useDispatch();
 
-  const [state, setState] = useState<State>({
-    open: false,
-    vertical: 'top',
-    horizontal: 'right',
-    severity: 'error',
-    message: ''
-  })
-  const { vertical, horizontal, open, severity, message } = state;
-
   const shopNow = () => {
     navigate('/product')
   }
-
-  const handleClose = () => {
-    setState({ ...state, open: false, message: '' });
-  };
 
   const handleEmptyCart = () => {
     dispatch(emptyCart());
   }
 
-
   return (
     <>
-      <Snackbar anchorOrigin={{ vertical, horizontal }} key={vertical + horizontal} open={open} autoHideDuration={4000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity={severity} sx={{ width: '100%' }}>
-          {message}
-        </Alert>
-      </Snackbar>
+      <CssBaseline />
       <Container disableGutters maxWidth="sm" component="main" sx={{ pt: 10, pb: 6 }}>
         <Typography
           component="h1"

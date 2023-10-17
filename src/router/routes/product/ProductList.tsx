@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Card, CardActions, CardContent, CardMedia, Container, CssBaseline, Grid, TextField, Typography } from '@mui/material';
+import { Box, Button, Container, CssBaseline, Grid, TextField, Typography } from '@mui/material';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { styled } from '@mui/system';
 import {
@@ -9,7 +9,7 @@ import {
 import { getProducts } from '../../../api/apiHandler';
 import ProductCard from './ProductCard';
 
-export default function ProductList() {
+function ProductList() {
 
 	const navigate = useNavigate();
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -97,9 +97,9 @@ export default function ProductList() {
 					setSearchParams(searchParams);
 				}} />
 			</Container>
-			<Container maxWidth="xl" component="main">
+			{products.length > 0 ? <Container maxWidth="xl" component="main">
 				<Grid container spacing={5} alignItems="flex-end" sx={{ mb: 5 }}>
-					{products.length > 0 && products.map((val, index) => <ProductCard val={val} key={val.id} index={index} />)}
+					{products.map((val, index) => <ProductCard val={val} key={val.id} index={index} />)}
 				</Grid>
 				<Root sx={{ width: 700, maxWidth: '100%', m: 'auto' }}>
 					<table aria-label="custom pagination table">
@@ -127,11 +127,26 @@ export default function ProductList() {
 						</tfoot>
 					</table>
 				</Root>
-
-			</Container >
+			</Container > : <Box
+				sx={{
+					display: 'flex',
+					justifyContent: 'center',
+					alignItems: 'center',
+					flexDirection: 'column',
+					minHeight: '60vh'
+				}}
+			>
+				<Typography variant="h6" sx={{ mb: 3 }}>
+					Sorry, we couldn't find any products matching your search.
+				</Typography>
+				<Button variant="contained" onClick={() => { searchParams.set("search", ''); setSearchParams(searchParams); }}>Clear search</Button>
+			</Box>
+			}
 		</>
 	);
 }
+
+export default ProductList;
 
 const blue = {
 	200: '#A5D8FF',

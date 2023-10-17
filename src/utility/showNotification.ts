@@ -1,7 +1,7 @@
 import Swal from "sweetalert2";
 
 export function showNotification({
-  icon = "info", // default to 'info' if not provided
+  icon = "info",
   title = "",
   text = "",
   position = "center-end",
