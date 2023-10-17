@@ -25,7 +25,7 @@ const footers = [
 	},
 ];
 
-const Footer = () => {
+function Footer(){
 	return (
 		<Container
 				maxWidth={false}

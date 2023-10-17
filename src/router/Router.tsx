@@ -13,8 +13,10 @@ import Product from './routes/product/Product';
 import Cart from './routes/cart/Cart';
 import Error from './routes/404/Error';
 import Logout from './routes/auth/Logout';
+import Dashboard from './routes/dashboard/Dashboard';
 import { AuthContext } from '../utility/context/AuthContext';
 import { getCart } from '../redux/actions/cart';
+import MyOrder from './routes/myorder/MyOrder';
 
 const Router = () => {
 	const { login } = useContext(AuthContext);
@@ -42,6 +44,8 @@ const Router = () => {
 						</>
 						:
 						<>
+							<Route path="/orders" element={<MyOrder />} />
+							<Route path="/dashboard" element={<Dashboard />} />
 							<Route path="/cart" element={<Cart />} />
 							<Route path="/logout" element={<Logout />} />
 						</>

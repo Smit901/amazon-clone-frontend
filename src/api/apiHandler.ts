@@ -47,3 +47,7 @@ export function updateCartData(data) {
 export function removeAllCartData(data) {
   return axiosClient.delete("api/cart/removeAll", data, config);
 }
+
+export function getUserData(data) {
+  return axiosClient.get("/api/users/get-user", data, config);
+}

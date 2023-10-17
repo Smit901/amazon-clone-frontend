@@ -19,7 +19,7 @@ function Logout() {
 		window.location.reload();
 	}, [])
 
-	return;
+	return <></>
 }
 
 export default Logout;

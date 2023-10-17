@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Button, Container, CssBaseline, Grid, TextField, Typography } from '@mui/material';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+
+// *** MUI
+import { Box, Button, Container, CssBaseline, Grid, TextField, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 import {
 	TablePagination,
 	tablePaginationClasses as classes,
 } from '@mui/base/TablePagination';
+
+// *** Custom Components or functions
 import { getProducts } from '../../../api/apiHandler';
 import ProductCard from './ProductCard';
 
