@@ -40,13 +40,13 @@ const Router = () => {
 						</>
 						:
 						<>
+							<Route path="/cart" element={<Cart />} />
 							<Route path="/logout" element={<Logout />} />
 						</>
 					}
 					<Route path="/product" element={<ProductList />} />
 					<Route path="/product/:id" element={<Product />} />
 					<Route path="/home" element={<Home />} />
-					<Route path="/cart" element={<Cart />} />
 					<Route path="/*" element={<Error />} />
 				</Routes>
 				<Footer />

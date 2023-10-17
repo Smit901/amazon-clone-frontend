@@ -15,7 +15,7 @@ axios.interceptors.request.use(
     ) {
       config.headers["authorization"] = localStorage.getItem("token");
     }
-		console.log(config)
+    console.log(config);
     return config;
   },
   function (error) {
@@ -32,8 +32,8 @@ axios.interceptors.response.use(
   }
 );
 
-axiosClient.defaults.headers.common['Authorization'] = localStorage.getItem('token');
-axiosClient.defaults.headers.common['accept-language'] = 'en';
-
+axiosClient.defaults.headers.common["Authorization"] =
+  localStorage.getItem("token");
+axiosClient.defaults.headers.common["accept-language"] = "en";
 
 export { axiosClient };

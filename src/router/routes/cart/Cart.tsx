@@ -8,25 +8,20 @@ import {
   Paper,
   Typography,
   Button,
-  Stack,
   Container,
-  Skeleton,
   Snackbar,
   Alert,
 } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { useState } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom';
-import { emptyCart, removeCart } from '../../../redux/actions/cart';
+import { emptyCart } from '../../../redux/actions/cart';
 import CartCard from './CartCard';
-
-const extra = /[\[\]'\n\s]/g
 
 function Cart() {
   const navigate = useNavigate();
 
-  const { cart, totalPrice, totalQty, status } = useSelector((store) => store.cart);
+  const { cart, totalPrice, totalQty } = useSelector((store) => store.cart);
   const dispatch = useDispatch();
 
   const [state, setState] = useState<State>({
@@ -75,7 +70,7 @@ function Cart() {
           <>
             <Button
               variant="contained"
-              sx={{mb: 5}}
+              sx={{ mb: 5 }}
               onClick={handleEmptyCart}
             >
               Clear Cart

@@ -6,6 +6,7 @@ import {
   removeCartData,
   updateCartData,
 } from "../../../api/apiHandler";
+import { showNotification } from "../../../utility/showNotification";
 
 export function getCart() {
   return async function (dispatch, getState) {
@@ -58,15 +59,26 @@ export function addCart({ data, qty }) {
     addCartData({
       ProductId: data.id,
       quantity: qty,
-    }).then((res) => {
-      if (res.data.status) {
-        dispatch({ type: actionTypes.CHANGE_STATUS, payload: "success" });
-        dispatch({
-          type: actionTypes.ADD_CART,
-          payload: { cartData, totalPrice, totalQty },
+    })
+      .then((res) => {
+        if (res.data.status) {
+          showNotification({
+            icon: "success",
+            title: res.data.msg,
+          });
+          dispatch({ type: actionTypes.CHANGE_STATUS, payload: "success" });
+          dispatch({
+            type: actionTypes.ADD_CART,
+            payload: { cartData, totalPrice, totalQty },
+          });
+        }
+      })
+      .catch((err) => {
+        showNotification({
+          icon: "error",
+          title: err.response.data.msg,
         });
-      }
-    });
+      });
   };
 }
 
@@ -88,11 +100,12 @@ export function removeCart(data) {
       );
     }
 
-    dispatch({ type: actionTypes.CHANGE_STATUS, payload: "loading" });
     removeCartData(data).then((res) => {
-      console.log(res);
       if (res.data.status) {
-        dispatch({ type: actionTypes.CHANGE_STATUS, payload: "success" });
+        showNotification({
+          icon: "success",
+          title: res.data.msg,
+        });
         dispatch({
           type: actionTypes.REMOVE_CART,
           payload: { cartData, totalPrice, totalQty },
@@ -130,10 +143,12 @@ export function updateCart(data) {
     }
 
     if (data.quantity > 0) {
-      dispatch({ type: actionTypes.CHANGE_STATUS, payload: "loading" });
       updateCartData(data).then((res) => {
         if (res.data.status) {
-          dispatch({ type: actionTypes.CHANGE_STATUS, payload: "success" });
+          showNotification({
+            icon: "success",
+            title: res.data.msg,
+          });
           dispatch({
             type: actionTypes.UPDATE_CART,
             payload: { cartData, totalPrice, totalQty },
@@ -148,10 +163,20 @@ export function emptyCart() {
   return async function (dispatch, getState) {
     removeAllCartData({}).then((res) => {
       if (res.data.status) {
+        showNotification({
+          icon: "success",
+          title: res.data.msg,
+        });
         dispatch({
           type: actionTypes.EMPTY_CART,
         });
       }
     });
+  };
+}
+
+export function emptyLocalCart() {
+  return {
+    type: actionTypes.EMPTY_CART,
   };
 }

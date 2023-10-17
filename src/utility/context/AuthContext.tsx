@@ -1,4 +1,4 @@
-import React, { useReducer, createContext } from 'react';
+import { useReducer, createContext } from 'react';
 
 // Initial state for the context
 const initialState = {
@@ -29,7 +29,7 @@ const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    dispatch({ type: 'LOGOUT' });
+    dispatch({ type: 'LOGOUT', token: null });
   };
 
   return (

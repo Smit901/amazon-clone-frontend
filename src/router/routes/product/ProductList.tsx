@@ -6,10 +6,8 @@ import {
 	TablePagination,
 	tablePaginationClasses as classes,
 } from '@mui/base/TablePagination';
-import { addCart, getProducts } from '../../../api/apiHandler';
+import { getProducts } from '../../../api/apiHandler';
 import ProductCard from './ProductCard';
-
-const extra = /[\[\]'\n\s]/g
 
 export default function ProductList() {
 
@@ -21,11 +19,6 @@ export default function ProductList() {
 	const [totalProduct, setTotalProduct] = useState();
 	const [products, setProducts] = useState([]);
 
-	// let pageNo = searchParams.get("pageNo");
-	// let searchString = searchParams.get("search");
-	// let pageLimit = searchParams.get("recordLimit");
-
-	
 	const defalutQueryString = {
 		page,
 		rowsPerPage,
@@ -33,13 +26,11 @@ export default function ProductList() {
 	};
 
 	useEffect(() => {
-		// Check if any of the default parameters are not present in the URL
 		for (const [key, value] of Object.entries(defalutQueryString)) {
 			if (!searchParams.has(key)) {
 				searchParams.set(key, value);
 			}
 		}
-		// Update the URL with the default query parameters
 		setSearchParams(searchParams);
 	}, [searchParams, setSearchParams]);
 
