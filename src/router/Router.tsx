@@ -17,6 +17,8 @@ import Dashboard from './routes/dashboard/Dashboard';
 import { AuthContext } from '../utility/context/AuthContext';
 import { getCart } from '../redux/actions/cart';
 import MyOrder from './routes/myorder/MyOrder';
+import ForgotPassword from './routes/auth/ForgotPassword';
+import ResetPassword from './routes/auth/ResetPassword';
 
 const Router = () => {
 	const { login } = useContext(AuthContext);
@@ -41,6 +43,8 @@ const Router = () => {
 						<>
 							<Route path="/login" element={<Login />} />
 							<Route path="/register" element={<Register />} />
+							<Route path="/forgot-password" element={<ForgotPassword />} />
+							<Route path="/reset-password" element={<ResetPassword />} />
 						</>
 						:
 						<>

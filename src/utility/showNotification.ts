@@ -5,7 +5,7 @@ export function showNotification({
   title = "",
   text = "",
   position = "center-end",
-  timer = 2000,
+  timer = 3000,
   toast = true,
 }) {
   Swal.fire({

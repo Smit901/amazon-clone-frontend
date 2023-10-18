@@ -1,3 +1,4 @@
+import axios from "axios";
 import { axiosClient } from "./apiClient";
 
 const config = {
@@ -15,6 +16,18 @@ export function userLogin(data) {
   return axiosClient.post("api/auth/login", data);
 }
 
+export function userForgotPassword(data) {
+  return axiosClient.post("api/auth/forgotPassword", data);
+}
+
+export function userResetPassword(data) {
+  return axiosClient.post("api/auth/resetPassword", data);
+}
+
+export function verifyToken(data) {
+  return axiosClient.post("api/auth/verifyToken", data);
+}
+
 export function getProducts(data) {
   return axiosClient.get(
     `api/products?page=${data.page + 1}&productsPerPage=${
@@ -29,6 +42,8 @@ export function getSingleProduct(data) {
 }
 
 export function getCartData(data) {
+  config.headers.authorization = localStorage.getItem("token");
+  console.log(config.headers.authorization);
   return axiosClient.get("api/cart", data, config);
 }
 
