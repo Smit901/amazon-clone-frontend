@@ -18,7 +18,11 @@ function MyOrder() {
 	useEffect(() => {
 		getOrders({}).then(res => {
 			if (res.data.status) {
-				setOrders(res.data.data.OrderDetails)
+				const sortedOrders = res.data.data.OrderDetails.sort(
+					(a, b) => b.order_id - a.order_id
+				);
+				setOrders(sortedOrders);
+			
 			}
 		})
 	}, [])
@@ -55,7 +59,7 @@ function MyOrder() {
 								</TableHead>
 								<TableBody>
 									{orders.map((order, index) => (
-										<TableRow key={order.order_id}>
+										<TableRow key={order.order_id+index}>
 											<TableCell>{order.order_id}</TableCell>
 											<TableCell>{order.order_date.split("T")[0]}</TableCell>
 											<TableCell>{order.total_price}</TableCell>
@@ -116,10 +120,10 @@ function MyOrder() {
 								gap: 2
 							}}
 						>
-							Your cart is empty
+							No order found
 							<Button
 								variant="contained"
-							// onClick={shopNow}
+								onClick={()=> navigate("/shop")}
 							>
 								Shop Now
 							</Button>

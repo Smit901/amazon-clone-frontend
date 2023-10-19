@@ -38,7 +38,7 @@ function Header() {
 
   return (
     <>
-    <CssBaseline />
+      <CssBaseline />
       <AppBar position="fixed" sx={{ bgcolor: 'primary.light' }}>
         <Container maxWidth={false}>
           <Toolbar disableGutters>
@@ -125,7 +125,7 @@ function Header() {
                   onClose={handleCloseUserMenu}
                 >
                   {settings.map((setting) => (
-                    <NavLink to={`/${setting.toLocaleLowerCase()}`} className='header__link' key={setting}>
+                    <NavLink to={setting == 'Dashboard' ? '/home' : `/${setting.toLocaleLowerCase()}`} className='header__link' key={setting}>
                       <MenuItem onClick={handleCloseUserMenu}>
                         <Typography textAlign="center">{setting}</Typography>
                       </MenuItem>

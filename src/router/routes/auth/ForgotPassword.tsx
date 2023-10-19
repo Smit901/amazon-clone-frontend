@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
@@ -7,9 +7,7 @@ import { useForm } from "react-hook-form";
 import { Box, Button, CssBaseline, Grid, InputLabel, TextField, Typography, Container } from '@mui/material';
 
 // *** Custom Components or functions
-import useUserContext from '../../../utility/hooks/useUserContext';
 import { showNotification } from '../../../utility/showNotification';
-import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 import { userForgotPassword } from '../../../api/apiHandler';
 

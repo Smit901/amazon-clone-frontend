@@ -8,10 +8,10 @@ import {
 } from "../../../api/apiHandler";
 import { showNotification } from "../../../utility/showNotification";
 
-export function getCart() {
+export function getCart(token) {
   return async function (dispatch, getState) {
     dispatch({ type: actionTypes.CHANGE_STATUS, payload: "loading" });
-    getCartData({}).then((res) => {
+    getCartData({}, token).then((res) => {
       if (res.data.status) {
         dispatch({ type: actionTypes.CHANGE_STATUS, payload: "success" });
         dispatch({

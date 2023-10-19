@@ -34,9 +34,9 @@ function Register() {
           icon: "success",
           title: res.data.msg,
         });
-        setTimeout(() => {
-          navigate("/login");
-        }, 2000);
+        navigate("/login");
+        // setTimeout(() => {
+        // }, 2000);
       } else {
         showNotification({
           icon: "error",

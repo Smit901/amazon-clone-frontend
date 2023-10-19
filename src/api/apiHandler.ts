@@ -2,7 +2,6 @@ import { axiosClient } from "./apiClient";
 
 const config = {
   headers: {
-    authorization: localStorage.getItem("token"),
     "accept-language": "en",
   },
 };
@@ -41,7 +40,15 @@ export function getSingleProduct(data) {
 }
 
 export function getCartData(data) {
-  return axiosClient.get("api/cart", data, config);
+  const token = localStorage.getItem("token");
+  const configWithToken = {
+    ...config,
+    headers: {
+      ...config.headers,
+      authorization: token,
+    },
+  };
+  return axiosClient.get("api/cart", data, configWithToken);
 }
 
 export function addCartData(data) {

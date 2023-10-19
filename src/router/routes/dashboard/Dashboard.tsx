@@ -7,14 +7,19 @@ import { Box, Container, CssBaseline, Typography } from '@mui/material'
 import { getUserData } from '../../../api/apiHandler'
 
 function Dashboard() {
-	const [userData, setUserData] = useState();
+	const [userData, setUserData] = useState("");
+
+	const token = localStorage.getItem('token');
 
 	useEffect(() => {
-		getUserData({}).then(res => {
-			if (res.data.status) {
-				setUserData(res.data.data)
-			}
-		})
+		if (token) {
+			getUserData({}).then(res => {
+				if (res.data.status) {
+					setUserData(res.data.data)
+				}
+			})
+		}
+
 	}, [])
 
 	return (
@@ -28,10 +33,10 @@ function Dashboard() {
 					color="text.primary"
 					gutterBottom
 				>
-					Dashboard
+					Welcome {token ? userData?.first_name + " " + userData?.last_name : "to Amazon"}
 				</Typography>
 			</Container>
-			<Container maxWidth="sm" component="main" sx={{ pt: 10, pb: 6 }}>
+			{token && <Container maxWidth="sm" component="main" sx={{ pt: 10, pb: 6 }}>
 				<Box
 					sx={{
 						display: 'flex',
@@ -52,7 +57,8 @@ function Dashboard() {
 						Email: {userData?.email}
 					</Typography>
 				</Box>
-			</Container>
+			</Container>}
+
 		</>
 	)
 }

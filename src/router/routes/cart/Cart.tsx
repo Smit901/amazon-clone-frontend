@@ -34,7 +34,6 @@ function Cart() {
   };
 
   const createOrder = () => {
-
     const data = {
       shipping: {
         street: 'Law Garden',
@@ -44,7 +43,6 @@ function Cart() {
       paymentMethod: "credit_card"
     }
 
-
     placeOrder(data).then(res => {
       if (res.data.status) {
         dispatch(emptyLocalCart())
@@ -53,7 +51,6 @@ function Cart() {
           icon: "success",
           title: "Your order has been placed successfully!",
         });
-
       }
     })
   }

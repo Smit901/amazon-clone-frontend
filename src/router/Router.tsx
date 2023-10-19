@@ -1,5 +1,5 @@
 import { useEffect, useContext } from 'react';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 // *** Custom Components or functions
@@ -14,23 +14,29 @@ import Cart from './routes/cart/Cart';
 import Error from './routes/404/Error';
 import Logout from './routes/auth/Logout';
 import Dashboard from './routes/dashboard/Dashboard';
-import { AuthContext } from '../utility/context/AuthContext';
 import { getCart } from '../redux/actions/cart';
 import MyOrder from './routes/myorder/MyOrder';
 import ForgotPassword from './routes/auth/ForgotPassword';
 import ResetPassword from './routes/auth/ResetPassword';
+import { verifyToken } from '../api/apiHandler';
+import useUserContext from '../utility/hooks/useUserContext';
 
 const Router = () => {
-	const { login, token } = useContext(AuthContext);
+	const { token, login } = useUserContext();
 	const dispatch = useDispatch();
 
 	const localToken = localStorage.getItem('token');
 
 	useEffect(() => {
 		if (localToken) {
-			login(localToken);
-			dispatch(getCart())
+			verifyToken({ token: localToken }).then(res => {
+				if (res.data.status) {
+					login(localToken);
+					dispatch(getCart())
+				}
+			}).catch(err => {})
 		}
+
 	}, [])
 
 
@@ -49,14 +55,13 @@ const Router = () => {
 						:
 						<>
 							<Route path="/orders" element={<MyOrder />} />
-							<Route path="/dashboard" element={<Dashboard />} />
 							<Route path="/cart" element={<Cart />} />
 							<Route path="/logout" element={<Logout />} />
 						</>
 					}
 					<Route path="/product" element={<ProductList />} />
 					<Route path="/product/:id" element={<Product />} />
-					<Route path="/home" element={<Home />} />
+					<Route path="/home" element={<Dashboard />} />
 					<Route path="/*" element={<Error />} />
 				</Routes>
 				<Footer />

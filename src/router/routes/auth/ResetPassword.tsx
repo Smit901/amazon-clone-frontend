@@ -7,14 +7,12 @@ import { useForm } from "react-hook-form";
 import { Box, Button, CssBaseline, InputLabel, TextField, Typography, Container } from '@mui/material';
 
 // *** Custom Components or functions
-import { userLogin, userResetPassword, verifyToken } from '../../../api/apiHandler';
-import useUserContext from '../../../utility/hooks/useUserContext';
+import { userResetPassword, verifyToken } from '../../../api/apiHandler';
 import { showNotification } from '../../../utility/showNotification';
 import { useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 
 function ResetPassword() {
-	const { login } = useUserContext();
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const [searchParams, setSearchParams] = useSearchParams();

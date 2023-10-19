@@ -11,13 +11,10 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { userLogin } from '../../../api/apiHandler';
 import useUserContext from '../../../utility/hooks/useUserContext';
 import { showNotification } from '../../../utility/showNotification';
-import { useDispatch } from 'react-redux';
-import { getCart } from '../../../redux/actions/cart';
 
 function Login() {
   const { login } = useUserContext();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().email("Email is invalid").required("Email is required"),
@@ -40,8 +37,8 @@ function Login() {
         setTimeout(() => {
           login(res.data.data.token)
           // dispatch(getCart())
-          navigate("/home");
-          // window.location.reload();
+          navigate("/home")
+          window.location.reload();
         }, 2000);
       } else {
         showNotification({
