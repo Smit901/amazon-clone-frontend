@@ -41,6 +41,7 @@ function CartCard({ product }){
 				<TableCell>{product.product_name}</TableCell>
 				<TableCell>{product.price_per_unit}</TableCell>
 				<TableCell>{product.quantity}</TableCell>
+				<TableCell>{product.price_per_unit * product.quantity}</TableCell>
 				<TableCell>
 					<Stack direction="row" spacing={1}>
 						<Button

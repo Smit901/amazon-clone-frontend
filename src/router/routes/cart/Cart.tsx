@@ -1,14 +1,17 @@
+import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 
 // *** MUI
 import {
-  Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Button, Container, CssBaseline,
+  Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Button, Container, CssBaseline, DialogTitle, DialogContent, DialogActions, Dialog, DialogContentText,
 } from "@mui/material";
 
 // *** Custom Components or functions
-import { emptyCart } from '../../../redux/actions/cart';
+import { emptyCart, emptyLocalCart } from '../../../redux/actions/cart';
 import CartCard from './CartCard';
+import { placeOrder } from '../../../api/apiHandler';
+import { showNotification } from '../../../utility/showNotification';
 
 function Cart() {
   const navigate = useNavigate();
@@ -16,12 +19,43 @@ function Cart() {
   const { cart, totalPrice, totalQty } = useSelector((store) => store.cart);
   const dispatch = useDispatch();
 
+  const [open, setOpen] = useState(false);
+
   const shopNow = () => {
     navigate('/product')
   }
 
   const handleEmptyCart = () => {
     dispatch(emptyCart());
+  }
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const createOrder = () => {
+
+    const data = {
+      shipping: {
+        street: 'Law Garden',
+        city: 'Maninagar',
+        zipCode: '890XXG'
+      },
+      paymentMethod: "credit_card"
+    }
+
+
+    placeOrder(data).then(res => {
+      if (res.data.status) {
+        dispatch(emptyLocalCart())
+        setOpen(false)
+        showNotification({
+          icon: "success",
+          title: "Your order has been placed successfully!",
+        });
+
+      }
+    })
   }
 
   return (
@@ -57,6 +91,7 @@ function Cart() {
                     <TableCell>Title</TableCell>
                     <TableCell>Price</TableCell>
                     <TableCell>Quantity</TableCell>
+                    <TableCell>Total</TableCell>
                     <TableCell>Action</TableCell>
                   </TableRow>
                 </TableHead>
@@ -96,13 +131,33 @@ function Cart() {
               <TableRow>
                 <TableCell>Quantity : {totalQty}</TableCell>
                 <TableCell>Price : {totalPrice}</TableCell>
-                <Button variant="contained" onClick={() => { }}>
-                  PayNow
+                <Button variant="contained" onClick={() => setOpen(true)}>
+                  Checkout
                 </Button>
               </TableRow>
             </Table>
           </TableContainer>
         )}
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description" sx={{ color: 'black', fontSize: '20px' }}>
+              Are you sure you want to proceed with your order and checkout?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button variant="contained" onClick={handleClose}>no</Button>
+            <Button variant="contained" onClick={createOrder} autoFocus>
+              yes
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Container>
     </>
   );

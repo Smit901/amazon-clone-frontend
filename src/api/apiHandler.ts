@@ -1,4 +1,3 @@
-import axios from "axios";
 import { axiosClient } from "./apiClient";
 
 const config = {
@@ -42,8 +41,6 @@ export function getSingleProduct(data) {
 }
 
 export function getCartData(data) {
-  config.headers.authorization = localStorage.getItem("token");
-  console.log(config.headers.authorization);
   return axiosClient.get("api/cart", data, config);
 }
 
@@ -64,5 +61,13 @@ export function removeAllCartData(data) {
 }
 
 export function getUserData(data) {
-  return axiosClient.get("/api/users/get-user", data, config);
+  return axiosClient.get("api/users/get-user", data, config);
+}
+
+export function placeOrder(data) {
+  return axiosClient.post("/api/orders/place", data, config);
+}
+
+export function getOrders(data) {
+  return axiosClient.get("/api/orders/history", data, config);
 }

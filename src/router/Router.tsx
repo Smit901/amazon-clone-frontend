@@ -21,14 +21,14 @@ import ForgotPassword from './routes/auth/ForgotPassword';
 import ResetPassword from './routes/auth/ResetPassword';
 
 const Router = () => {
-	const { login } = useContext(AuthContext);
+	const { login, token } = useContext(AuthContext);
 	const dispatch = useDispatch();
 
-	const token = localStorage.getItem('token');
+	const localToken = localStorage.getItem('token');
 
 	useEffect(() => {
-		if (token) {
-			login(token);
+		if (localToken) {
+			login(localToken);
 			dispatch(getCart())
 		}
 	}, [])
