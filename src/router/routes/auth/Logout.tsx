@@ -15,8 +15,9 @@ function Logout() {
 		logout();
 		dispatch(emptyLocalCart())
 		localStorage.removeItem('token');
+		window.history.replaceState(null, null, '/home');
 		navigate('/home');
-		window.location.reload();
+		// window.location.reload();
 	}, [])
 
 	return <></>

@@ -5,11 +5,13 @@ import { Box, Container, CssBaseline, Typography } from '@mui/material'
 
 // *** Custom Components or functions
 import { getUserData } from '../../../api/apiHandler'
+import useUserContext from '../../../utility/hooks/useUserContext';
 
 function Dashboard() {
 	const [userData, setUserData] = useState("");
+	const { token } = useUserContext();
 
-	const token = localStorage.getItem('token');
+	// const token = localStorage.getItem('token');
 
 	useEffect(() => {
 		if (token) {
@@ -19,7 +21,6 @@ function Dashboard() {
 				}
 			})
 		}
-
 	}, [])
 
 	return (

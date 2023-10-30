@@ -59,9 +59,7 @@ function ResetPassword() {
 					icon: "success",
 					title: res.data.msg,
 				})
-				setTimeout(() => {
-					navigate("/login");
-				}, 3000);
+				navigate("/login");
 			} else {
 				showNotification({
 					icon: "success",

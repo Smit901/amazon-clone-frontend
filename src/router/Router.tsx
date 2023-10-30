@@ -1,5 +1,5 @@
 import { useEffect, useContext } from 'react';
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 // *** Custom Components or functions
@@ -59,6 +59,7 @@ const Router = () => {
 							<Route path="/logout" element={<Logout />} />
 						</>
 					}
+					<Route path="/" element={<Navigate to="/home" />} />
 					<Route path="/product" element={<ProductList />} />
 					<Route path="/product/:id" element={<Product />} />
 					<Route path="/home" element={<Dashboard />} />

@@ -101,7 +101,6 @@ function ForgotPassword() {
 						</Box>
 					</>
 				}
-
 			</Box>
 		</Container>
 	);

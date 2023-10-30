@@ -7,7 +7,7 @@ const axiosClient = axios.create({
   },
 });
 
-axios.interceptors.request.use(
+axiosClient.interceptors.request.use(
   function (config) {
     if (
       localStorage.getItem("token") !== undefined ||
@@ -22,7 +22,7 @@ axios.interceptors.request.use(
   }
 );
 
-axios.interceptors.response.use(
+axiosClient.interceptors.response.use(
   function (response) {
     return response;
   },
@@ -31,8 +31,8 @@ axios.interceptors.response.use(
   }
 );
 
-axiosClient.defaults.headers.common["Authorization"] =
-  localStorage.getItem("token");
-axiosClient.defaults.headers.common["accept-language"] = "en";
+// axiosClient.defaults.headers.common["Authorization"] =
+//   localStorage.getItem("token");
+// axiosClient.defaults.headers.common["accept-language"] = "en";
 
 export { axiosClient };

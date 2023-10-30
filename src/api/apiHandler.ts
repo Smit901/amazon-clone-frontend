@@ -1,11 +1,5 @@
 import { axiosClient } from "./apiClient";
 
-const config = {
-  headers: {
-    "accept-language": "en",
-  },
-};
-
 export function userRegister(data) {
   return axiosClient.post("api/auth/register", data);
 }
@@ -40,41 +34,33 @@ export function getSingleProduct(data) {
 }
 
 export function getCartData(data) {
-  const token = localStorage.getItem("token");
-  const configWithToken = {
-    ...config,
-    headers: {
-      ...config.headers,
-      authorization: token,
-    },
-  };
-  return axiosClient.get("api/cart", data, configWithToken);
+  return axiosClient.get("api/cart", data);
 }
 
 export function addCartData(data) {
-  return axiosClient.post("api/cart/add", data, config);
+  return axiosClient.post("api/cart/add", data);
 }
 
 export function removeCartData(data) {
-  return axiosClient.post("api/cart/remove", data, config);
+  return axiosClient.post("api/cart/remove", data);
 }
 
 export function updateCartData(data) {
-  return axiosClient.patch("api/cart/update", data, config);
+  return axiosClient.patch("api/cart/update", data);
 }
 
 export function removeAllCartData(data) {
-  return axiosClient.delete("api/cart/removeAll", data, config);
+  return axiosClient.delete("api/cart/removeAll", data);
 }
 
 export function getUserData(data) {
-  return axiosClient.get("api/users/get-user", data, config);
+  return axiosClient.get("api/users/get-user", data);
 }
 
 export function placeOrder(data) {
-  return axiosClient.post("/api/orders/place", data, config);
+  return axiosClient.post("/api/orders/place", data);
 }
 
 export function getOrders(data) {
-  return axiosClient.get("/api/orders/history", data, config);
+  return axiosClient.get("/api/orders/history", data);
 }
