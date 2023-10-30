@@ -7,7 +7,6 @@ import Header from '../components/header/Header';
 import Footer from '../components/footer/Footer';
 import Login from './routes/auth/Login';
 import Register from './routes/auth/Register';
-import Home from './routes/home/Home';
 import ProductList from './routes/product/ProductList';
 import Product from './routes/product/Product';
 import Cart from './routes/cart/Cart';

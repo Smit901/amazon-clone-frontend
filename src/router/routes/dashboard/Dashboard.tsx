@@ -5,23 +5,16 @@ import { Box, Container, CssBaseline, Typography } from '@mui/material'
 
 // *** Custom Components or functions
 import { getUserData } from '../../../api/apiHandler'
-import useUserContext from '../../../utility/hooks/useUserContext';
+import { useQuery } from '@tanstack/react-query';
+
 
 function Dashboard() {
-	const [userData, setUserData] = useState("");
-	const { token } = useUserContext();
+	const { isLoading, error, data: userData, isFetching } = useQuery({
+		queryKey: ['user'], queryFn: () => getUserData({}).then(res => res.data.data),
+		enabled: localStorage.getItem('token') ? true : false
+	})
 
-	// const token = localStorage.getItem('token');
-
-	useEffect(() => {
-		if (token) {
-			getUserData({}).then(res => {
-				if (res.data.status) {
-					setUserData(res.data.data)
-				}
-			})
-		}
-	}, [])
+	const token = localStorage.getItem('token')
 
 	return (
 		<>
